@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, Heart } from 'lucide-react';
 import { useDatePlanner } from '../context/DatePlannerContext';
+import { useChotuPreferences } from '../context/ChotuPreferencesContext';
 import { DATE_VIBES } from '../data/dateVibes';
 import { VibeSelectionCard } from '../components/vibes/VibeSelectionCard';
 import { StepNavigation } from '../components/common/StepNavigation';
@@ -14,6 +15,7 @@ import { getVibeDoodleIcon } from '../components/common/CuteDoodles';
 export const ScreenTwoVibe: React.FC = () => {
   const navigate = useNavigate();
   const { selectedVibeId, selectVibe } = useDatePlanner();
+  const { isFavoriteVibe } = useChotuPreferences();
 
   const chosenVibe = DATE_VIBES.find((v) => v.id === selectedVibeId) || DATE_VIBES[0];
 
@@ -50,6 +52,7 @@ export const ScreenTwoVibe: React.FC = () => {
               key={vibe.id}
               vibe={vibe}
               isSelected={isSelected}
+              isChotuFavorite={isFavoriteVibe(vibe.id)}
               onSelect={() => selectVibe(vibe.id)}
             />
           );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ExternalLink, Heart, Check, Sparkles, Navigation, UtensilsCrossed, Image as ImageIcon, Users, Maximize2 } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
+import { useChotuPreferences } from '../../context/ChotuPreferencesContext';
 import type { DateVibeOption, VehicleChoice, ChillAudienceChoice, PujaCompanionChoice, PitstopChoice } from '../../types';
 import {
   getVibeDoodleIcon,
@@ -98,6 +99,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
     setSelectedSpotId,
     setPitstopChoice,
   } = useDatePlanner();
+  const { isFavoriteSpot, isFavoritePitstop, isFavoriteVehicle } = useChotuPreferences();
 
   const [showRealPhoto, setShowRealPhoto] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string; caption: string } | null>(null);
@@ -224,6 +226,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
               },
             ].map((v) => {
               const isSelected = customization.vehicleChoice === v.id;
+              const isFavVehicle = isFavoriteVehicle(v.id);
               return (
                 <button
                   key={v.id}
@@ -242,9 +245,16 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                       </div>
                       <span className="font-bold text-xs text-[#3D2730]">{v.label}</span>
                     </div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shadow-2xs">
-                      {v.tag}
-                    </span>
+                    <div className="flex items-center gap-1">
+                      {isFavVehicle && (
+                        <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-gradient-to-r from-[#FFE0E6] to-[#FFF0F5] text-[#E94F64] border border-[#FFB7C5] shadow-2xs">
+                          Chotu's Ride 👑
+                        </span>
+                      )}
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shadow-2xs">
+                        {v.tag}
+                      </span>
+                    </div>
                   </div>
                   <p className="text-[11px] text-[#3D2730]/75 leading-snug font-medium">{v.desc}</p>
                 </button>
@@ -512,6 +522,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
             },
           ].map((p) => {
             const isSelected = customization.pitstopChoice === p.id;
+            const isFavPitstop = isFavoritePitstop(p.id);
             return (
               <button
                 key={p.id}
@@ -532,9 +543,16 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                       {p.label}
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shrink-0 shadow-2xs">
-                    {p.tag}
-                  </span>
+                  <div className="flex items-center gap-1 shrink-0">
+                    {isFavPitstop && (
+                      <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-gradient-to-r from-[#FFE0E6] to-[#FFF0F5] text-[#E94F64] border border-[#FFB7C5] shadow-2xs">
+                        Chotu's Craving! 😋
+                      </span>
+                    )}
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shrink-0 shadow-2xs">
+                      {p.tag}
+                    </span>
+                  </div>
                 </div>
                 <p className="text-[11px] text-[#3D2730]/75 leading-snug font-medium pl-10">
                   {p.desc}
@@ -561,6 +579,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {vibe.jamshedpurSpots.map((spot) => {
               const isSelected = customization.selectedSpotId === spot.id;
+              const isFavSpot = isFavoriteSpot(spot.name);
               return (
                 <div
                   key={spot.id}
@@ -576,9 +595,17 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                       <h5 className="font-bold text-xs text-[#3D2730] leading-tight">
                         {spot.name}
                       </h5>
-                      <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#E94F64] bg-white px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs mt-1">
-                        <DoodleMapPin className="w-3 h-3" />
-                        <span>{spot.locality}</span>
+                      <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                        <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#E94F64] bg-white px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs">
+                          <DoodleMapPin className="w-3 h-3" />
+                          <span>{spot.locality}</span>
+                        </div>
+                        {isFavSpot && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-gradient-to-r from-[#FFE0E6] to-[#FFF0F5] text-[#E94F64] border border-[#FFB7C5] shadow-2xs">
+                            <Sparkles className="w-2.5 h-2.5 text-[#E94F64]" />
+                            <span>Chotu's Spot! 👑</span>
+                          </span>
+                        )}
                       </div>
                     </div>
 

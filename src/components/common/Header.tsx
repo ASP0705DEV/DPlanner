@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Sparkles, Sliders, Clock, FileHeart, Camera, Download, Lock } from 'lucide-react';
+import { Heart, Sparkles, Sliders, Clock, FileHeart, Camera, Download, Lock, Crown } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
 import { useAuth } from '../../context/AuthContext';
 import { ROMANTIC_CONFIG } from '../../config/romanticMessages';
@@ -25,6 +25,7 @@ export const Header: React.FC = () => {
 
   const isHome = location.pathname === '/';
   const isMemories = location.pathname === '/memories';
+  const isFavorites = location.pathname === '/favorites';
   const isSecretDashboard = location.pathname.startsWith('/our-secret-dashboard');
 
   return (
@@ -54,31 +55,43 @@ export const Header: React.FC = () => {
             </div>
           </Link>
 
-          {/* Right Side Actions: Install App + Journal Link + Chosen Vibe + Lock */}
+          {/* Right Side Actions: Install App + Favs Handbook + Journal Link + Chosen Vibe + Lock */}
           <div className="flex items-center gap-1.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => setShowInstallModal(true)}
-              className="text-[11px] font-bold px-2 sm:px-2.5 py-1.5 rounded-full bg-[#FFFDF9] text-[#3D2730]/80 border border-[#3D2730]/10 hover:border-[#FFB7C5] hover:text-[#E94F64] hover:bg-white inline-flex items-center gap-1 cursor-pointer transition-all shadow-2xs hover:scale-102"
-              title="Download app to desktop or phone"
+            <Link
+              to="/favorites"
+              className={`text-[11px] font-bold px-2 sm:px-2.5 py-1.5 rounded-full border inline-flex items-center gap-1 transition-all shadow-2xs hover:scale-102 ${
+                isFavorites
+                  ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white border-transparent shadow-xs'
+                  : 'bg-[#FFF0F5] text-[#E94F64] border-[#FFB7C5]/70 hover:bg-[#FFE0E6]'
+              }`}
+              title="Chotu's Favorites Handbook"
             >
-              <Download className="w-3.5 h-3.5 text-[#E94F64]" />
-              <span className="hidden sm:inline">Install App</span>
-              <span className="sm:hidden text-[10px]">App 📲</span>
-            </button>
+              <Crown className="w-3.5 h-3.5 text-[#E94F64] fill-current" />
+              <span>Favs 👑</span>
+            </Link>
 
             <Link
               to="/memories"
-              className={`text-[11px] font-bold px-2.5 sm:px-3 py-1.5 rounded-full border inline-flex items-center gap-1.5 transition-all shadow-2xs hover:scale-102 ${
+              className={`text-[11px] font-bold px-2 sm:px-2.5 py-1.5 rounded-full border inline-flex items-center gap-1 transition-all shadow-2xs hover:scale-102 ${
                 isMemories
                   ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white border-transparent shadow-xs'
-                  : 'bg-white text-[#E94F64] border-[#FFB7C5]/60 hover:bg-[#FFE0E6]/50'
+                  : 'bg-white text-[#3D2730]/80 border-[#3D2730]/15 hover:text-[#E94F64] hover:border-[#FFB7C5]'
               }`}
               title="View our romantic memory journal"
             >
               <Camera className="w-3.5 h-3.5" />
-              <span>Journal 📖</span>
+              <span className="hidden xs:inline">Journal</span>
             </Link>
+
+            <button
+              type="button"
+              onClick={() => setShowInstallModal(true)}
+              className="text-[11px] font-bold p-1.5 sm:px-2 sm:py-1.5 rounded-full bg-[#FFFDF9] text-[#3D2730]/80 border border-[#3D2730]/10 hover:border-[#FFB7C5] hover:text-[#E94F64] hover:bg-white inline-flex items-center gap-1 cursor-pointer transition-all shadow-2xs hover:scale-102"
+              title="Download app to desktop or phone"
+            >
+              <Download className="w-3.5 h-3.5 text-[#E94F64]" />
+              <span className="hidden md:inline text-[10px]">App</span>
+            </button>
 
             {isUnlocked && (
               <button
@@ -91,17 +104,17 @@ export const Header: React.FC = () => {
               </button>
             )}
 
-            {chosenVibe && !isHome && !isMemories && (
-              <span className="text-[11px] font-bold bg-[#FFF0B8]/80 text-[#92400E] px-2.5 py-1 rounded-full border border-[#FDE68A] hidden md:inline-flex items-center gap-1.5 shadow-2xs">
+            {chosenVibe && !isHome && !isMemories && !isFavorites && (
+              <span className="text-[11px] font-bold bg-[#FFF0B8]/80 text-[#92400E] px-2.5 py-1 rounded-full border border-[#FDE68A] hidden lg:inline-flex items-center gap-1.5 shadow-2xs">
                 {getVibeDoodleIcon(chosenVibe.id, 'w-3.5 h-3.5 shrink-0')}
-                <span className="leading-none truncate max-w-[100px]">{chosenVibe.title}</span>
+                <span className="leading-none truncate max-w-[90px]">{chosenVibe.title}</span>
               </span>
             )}
           </div>
         </div>
 
         {/* Modern Step Indicator Bar */}
-        {!isHome && !isSecretDashboard && !isMemories && (
+        {!isHome && !isSecretDashboard && !isMemories && !isFavorites && (
           <div className="mt-2 pt-2 border-t border-[#3D2730]/5 grid grid-cols-4 gap-1">
             {steps.map((step) => {
               const isActive = location.pathname === step.path;

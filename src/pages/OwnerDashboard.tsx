@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Lock,
   Unlock,
@@ -6,8 +7,17 @@ import {
   Clock,
   Eye,
   RefreshCw,
+  Crown,
+  MapPin,
+  UtensilsCrossed,
+  Sparkles,
+  Navigation,
+  Send,
+  Smile,
+  ExternalLink,
 } from 'lucide-react';
 import type { DateSubmission, SubmissionStatus } from '../types';
+import { useChotuPreferences } from '../context/ChotuPreferencesContext';
 import {
   fetchOwnerSubmissions,
   updateSubmissionStatus,
@@ -17,6 +27,7 @@ import {
 import { WashiTape } from '../components/common/WashiTape';
 
 export const OwnerDashboard: React.FC = () => {
+  const { preferences } = useChotuPreferences();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
@@ -27,6 +38,7 @@ export const OwnerDashboard: React.FC = () => {
   const [selectedSubmission, setSelectedSubmission] = useState<DateSubmission | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [dataSource, setDataSource] = useState<'supabase' | 'local'>('local');
+  const [activeDashboardTab, setActiveDashboardTab] = useState<'wishlists' | 'handbook'>('wishlists');
 
   // Check auth session
   useEffect(() => {
@@ -204,52 +216,420 @@ export const OwnerDashboard: React.FC = () => {
       ) : (
         /* AUTHENTICATED DASHBOARD CONTENT */
         <div className="space-y-6">
-          {/* Top Bar with Status Counts and Logout */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-white rounded-2xl border-2 border-[#49333A]/10 shadow-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[#49333A]/70 uppercase">
-                Filter Status:
-              </span>
-              {(['all', 'new', 'reviewed', 'planning', 'completed'] as const).map((st) => (
-                <button
-                  key={st}
-                  onClick={() => setStatusFilter(st)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer border ${
-                    statusFilter === st
-                      ? 'bg-[#E94F64] text-white border-[#E94F64]'
-                      : 'bg-[#FFF8F0] text-[#49333A] border-[#49333A]/10 hover:border-[#FFB7C5]'
-                  }`}
-                >
-                  {st}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                dataSource === 'supabase'
-                  ? 'bg-[#DDF3E4] text-[#065F46] border-[#BBF7D0]'
-                  : 'bg-[#FFF0B8] text-[#92400E] border-[#FDE68A]'
-              }`}>
-                {dataSource === 'supabase' ? '● Supabase Cloud' : '● Local Storage'}
-              </span>
-              <button
-                onClick={loadSubmissions}
-                disabled={loading}
-                className="p-2 rounded-full border border-[#49333A]/20 bg-[#FFF8F0] hover:bg-[#FFE0E6] transition-colors cursor-pointer"
-                title="Refresh Submissions"
-              >
-                <RefreshCw className={`w-4 h-4 text-[#49333A] ${loading ? 'animate-spin' : ''}`} />
-              </button>
-
-              <button
-                onClick={handleLogout}
-                className="px-3.5 py-1.5 rounded-full border border-[#49333A]/20 text-xs font-bold text-[#49333A] hover:bg-[#FFE0E6] cursor-pointer"
-              >
-                Sign Out
-              </button>
-            </div>
+          {/* Main Dashboard Mode Switcher */}
+          <div className="flex items-center gap-2 max-w-md mx-auto p-1.5 bg-white rounded-2xl border-2 border-[#49333A]/10 shadow-xs">
+            <button
+              type="button"
+              onClick={() => setActiveDashboardTab('wishlists')}
+              className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                activeDashboardTab === 'wishlists'
+                  ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white shadow-xs'
+                  : 'text-[#49333A]/70 hover:text-[#49333A] hover:bg-[#FFE0E6]/40'
+              }`}
+            >
+              <Heart className="w-3.5 h-3.5" />
+              <span>Date Wishlists ({submissions.length})</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveDashboardTab('handbook')}
+              className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                activeDashboardTab === 'handbook'
+                  ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white shadow-xs'
+                  : 'text-[#49333A]/70 hover:text-[#49333A] hover:bg-[#FFE0E6]/40'
+              }`}
+            >
+              <Crown className="w-3.5 h-3.5" />
+              <span>Chotu's Handbook 👑</span>
+            </button>
           </div>
+
+          {activeDashboardTab === 'handbook' ? (
+            /* CHOTU'S FAVORITES HANDBOOK PROFILE VIEW */
+            <div className="space-y-6">
+              {/* Handbook Header Card */}
+              <div className="p-6 bg-gradient-to-br from-white via-[#FFF5F7] to-[#FFEBF0] rounded-3xl border-2 border-[#E94F64]/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#FFE0E6] via-[#FFF0F5] to-white border border-[#FFB7C5] flex items-center justify-center text-[#E94F64] shadow-sm shrink-0">
+                    <Crown className="w-9 h-9 stroke-[1.8]" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="font-display text-2xl font-black text-[#3D2730]">
+                        Chotu's Official Favorites Handbook
+                      </h2>
+                      <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/60 shadow-2xs">
+                        👑 Queen's Profile
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#3D2730]/75 mt-1">
+                      Last Updated by Chotu: <span className="font-bold text-[#E94F64]">{new Date(preferences.updatedAt || Date.now()).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+                  <a
+                    href={`https://api.whatsapp.com/send?phone=917070362117&text=${encodeURIComponent("Hey Chotu 💕 Sonu just reviewed your Favorites Handbook! Getting ready to pamper you 🥰")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-pookie py-2 px-4 text-xs font-bold inline-flex items-center gap-1.5 shadow-sm"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>WhatsApp Chotu</span>
+                  </a>
+
+                  <Link
+                    to="/favorites"
+                    className="py-2 px-3.5 rounded-full bg-white border border-[#3D2730]/15 hover:border-[#FFB7C5] text-xs font-bold text-[#3D2730] inline-flex items-center gap-1.5 shadow-2xs hover:bg-[#FFE0E6]/30 transition-all"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#E94F64]" />
+                    <span>Open Form</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Handbook Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {/* 1. Favorite Places */}
+                <div className="p-5 bg-white rounded-3xl border-2 border-[#49333A]/10 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 text-[#E94F64] mb-3">
+                      <MapPin className="w-5 h-5" />
+                      <h3 className="font-display text-lg font-bold text-[#3D2730]">
+                        Favorite Places & Setting
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Top Jamshedpur Spots:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.favoritePlacesInJsr || []).map((p, i) => (
+                            <span key={i} className="px-2.5 py-1 rounded-full bg-[#FFE0E6] text-[#E94F64] font-bold text-[11px] border border-[#FFB7C5]/60 shadow-2xs">
+                              📍 {p}
+                            </span>
+                          ))}
+                          {preferences.customFavoritePlace && (
+                            <span className="px-2.5 py-1 rounded-full bg-[#FFF0B8] text-[#92400E] font-bold text-[11px] border border-[#FDE68A] shadow-2xs">
+                              ⭐ {preferences.customFavoritePlace}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Ideal Date Setting:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.idealDateSetting || []).map((s, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded-lg bg-[#FFF8F0] text-[#3D2730] font-semibold text-[11px] border border-[#3D2730]/10">
+                              ✨ {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-[#3D2730]/8 flex flex-col gap-1 text-[11px]">
+                        <p><span className="font-bold text-[#3D2730]/70">Preferred Timing:</span> <span className="font-bold text-[#E94F64]">{preferences.favoriteDateTiming}</span></p>
+                        {preferences.dreamGetawayDestination && (
+                          <p><span className="font-bold text-[#3D2730]/70">Dream Getaway:</span> <span className="font-bold">{preferences.dreamGetawayDestination}</span></p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Favorite Food & Cravings */}
+                <div className="p-5 bg-white rounded-3xl border-2 border-[#49333A]/10 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 text-[#E94F64] mb-3">
+                      <UtensilsCrossed className="w-5 h-5" />
+                      <h3 className="font-display text-lg font-bold text-[#3D2730]">
+                        Food, Cravings & Drinks
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Street Food Cravings:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.favoriteStreetFoods || []).map((f, i) => (
+                            <span key={i} className="px-2.5 py-1 rounded-full bg-[#FFF0F5] text-[#E94F64] font-bold text-[11px] border border-[#FFB7C5]/60 shadow-2xs">
+                              😋 {f}
+                            </span>
+                          ))}
+                          {preferences.customStreetFood && (
+                            <span className="px-2.5 py-1 rounded-full bg-[#FFF0B8] text-[#92400E] font-bold text-[11px] border border-[#FDE68A] shadow-2xs">
+                              ⭐ {preferences.customStreetFood}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Favorite Desserts & Drinks:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.favoriteDesserts || []).map((d, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded-lg bg-[#FFF8F0] text-[#3D2730] font-semibold text-[11px] border border-[#3D2730]/10">
+                              🍰 {d}
+                            </span>
+                          ))}
+                          {(preferences.favoriteDrinks || []).map((dr, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded-lg bg-[#FFF8F0] text-[#3D2730] font-semibold text-[11px] border border-[#3D2730]/10">
+                              🥤 {dr}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-[#3D2730]/8 flex flex-col gap-1 text-[11px]">
+                        {preferences.comfortFoodWhenStressed && (
+                          <p><span className="font-bold text-[#3D2730]/70">Comfort Food:</span> <span className="font-bold text-[#E94F64]">{preferences.comfortFoodWhenStressed}</span></p>
+                        )}
+                        {preferences.favoriteRestaurantOrCuisine && (
+                          <p><span className="font-bold text-[#3D2730]/70">Fav Cuisine:</span> <span className="font-bold">{preferences.favoriteRestaurantOrCuisine}</span></p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Favorite Activities with Sonu */}
+                <div className="p-5 bg-white rounded-3xl border-2 border-[#49333A]/10 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 text-[#E94F64] mb-3">
+                      <Navigation className="w-5 h-5" />
+                      <h3 className="font-display text-lg font-bold text-[#3D2730]">
+                        Activities & Ride with Sonu
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1">
+                          Preferred Travel Mode with Sonu:
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white font-extrabold text-xs shadow-xs">
+                          🛵 {preferences.preferredTravelMode?.toUpperCase()} WITH SONU
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Fun Activities She Loves:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.favoriteFunActivities || []).map((a, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded-lg bg-[#FFF8F0] text-[#3D2730] font-semibold text-[11px] border border-[#3D2730]/10">
+                              🎮 {a}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Favorite Cozy Moments:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.favoriteCozyMoments || []).map((c, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded-lg bg-[#FFE0E6]/50 text-[#E94F64] font-semibold text-[11px] border border-[#FFB7C5]/40">
+                              🧸 {c}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {preferences.festiveDurgaPujaPreferences && preferences.festiveDurgaPujaPreferences.length > 0 && (
+                        <div>
+                          <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                            Durga Puja Vibes:
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {preferences.festiveDurgaPujaPreferences.map((pu, i) => (
+                              <span key={i} className="px-2 py-0.5 rounded-md bg-[#FFF0B8]/60 text-[#92400E] font-bold text-[10px] border border-[#FDE68A]">
+                                🌸 {pu}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Pampering & Mood */}
+                <div className="p-5 bg-white rounded-3xl border-2 border-[#49333A]/10 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 text-[#E94F64] mb-3">
+                      <Smile className="w-5 h-5" />
+                      <h3 className="font-display text-lg font-bold text-[#3D2730]">
+                        Pampering & Mood Boosters
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          What Cheers Her Up When Upset:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.whatCheersChotuUp || []).map((w, i) => (
+                            <span key={i} className="px-2.5 py-1 rounded-full bg-[#DDF3E4] text-[#065F46] font-bold text-[11px] border border-[#BBF7D0] shadow-2xs">
+                              💖 {w}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {preferences.carRideSongsOrArtists && (
+                        <div>
+                          <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1">
+                            Car Ride Songs / Playlist:
+                          </span>
+                          <p className="p-2.5 bg-[#FFF8F0] rounded-xl border border-[#3D2730]/10 font-medium text-[#3D2730]">
+                            🎵 {preferences.carRideSongsOrArtists}
+                          </p>
+                        </div>
+                      )}
+
+                      {preferences.littleThingsThatMeltHeart && (
+                        <div>
+                          <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1">
+                            Things That Melt Her Heart:
+                          </span>
+                          <p className="p-2.5 bg-[#FFE0E6]/30 rounded-xl border border-[#FFB7C5]/40 italic text-[#E94F64]">
+                            🥰 "{preferences.littleThingsThatMeltHeart}"
+                          </p>
+                        </div>
+                      )}
+
+                      <div>
+                        <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1.5">
+                          Favorite Nicknames:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(preferences.favoriteNicknames || []).map((n, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded-full bg-[#FFF0F5] text-[#E94F64] font-bold text-[10px] border border-[#FFB7C5]/50">
+                              💕 {n}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 5. Secret Wish & Note for Sonu */}
+                <div className="p-5 bg-gradient-to-br from-[#FFF5F7] to-white rounded-3xl border-2 border-[#E94F64]/30 shadow-sm flex flex-col justify-between md:col-span-2">
+                  <div>
+                    <div className="flex items-center gap-2 text-[#E94F64] mb-3">
+                      <Sparkles className="w-5 h-5" />
+                      <h3 className="font-display text-lg font-bold text-[#3D2730]">
+                        Chotu's Secret Wishes & Note to Sonu
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3.5 text-xs">
+                      {preferences.topDatesToPlanNext && (
+                        <div>
+                          <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1">
+                            Top Dates She Wants Next:
+                          </span>
+                          <p className="p-3 bg-white rounded-xl border border-[#3D2730]/10 font-bold text-[#3D2730]">
+                            ✨ {preferences.topDatesToPlanNext}
+                          </p>
+                        </div>
+                      )}
+
+                      {preferences.secretWish && (
+                        <div>
+                          <span className="font-bold text-[#E94F64] uppercase text-[10px] block mb-1">
+                            Her Secret Wish:
+                          </span>
+                          <p className="p-3 bg-[#FFE0E6]/40 rounded-xl border border-[#FFB7C5]/60 font-bold text-[#E94F64]">
+                            🔒 "{preferences.secretWish}"
+                          </p>
+                        </div>
+                      )}
+
+                      {preferences.specialNoteForSonu && (
+                        <div>
+                          <span className="font-bold text-[#3D2730]/70 uppercase text-[10px] block mb-1">
+                            Special Note From Chotu:
+                          </span>
+                          <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-[#FFB7C5] shadow-2xs">
+                            <p className="font-handwritten text-2xl text-[#3D2730] italic leading-relaxed">
+                              "{preferences.specialNoteForSonu}"
+                            </p>
+                            <p className="text-[11px] text-right font-bold text-[#E94F64] mt-2">
+                              — Chotu 💕
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* DATE WISHLISTS LIST VIEW */
+            <>
+              {/* Top Bar with Status Counts and Logout */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-white rounded-2xl border-2 border-[#49333A]/10 shadow-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-[#49333A]/70 uppercase">
+                    Filter Status:
+                  </span>
+                  {(['all', 'new', 'reviewed', 'planning', 'completed'] as const).map((st) => (
+                    <button
+                      key={st}
+                      onClick={() => setStatusFilter(st)}
+                      className={`px-3 py-1 rounded-full text-xs font-bold capitalize transition-all cursor-pointer border ${
+                        statusFilter === st
+                          ? 'bg-[#E94F64] text-white border-[#E94F64]'
+                          : 'bg-[#FFF8F0] text-[#49333A] border-[#49333A]/10 hover:border-[#FFB7C5]'
+                      }`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                    dataSource === 'supabase'
+                      ? 'bg-[#DDF3E4] text-[#065F46] border-[#BBF7D0]'
+                      : 'bg-[#FFF0B8] text-[#92400E] border-[#FDE68A]'
+                  }`}>
+                    {dataSource === 'supabase' ? '● Supabase Cloud' : '● Local Storage'}
+                  </span>
+                  <button
+                    onClick={loadSubmissions}
+                    disabled={loading}
+                    className="p-2 rounded-full border border-[#49333A]/20 bg-[#FFF8F0] hover:bg-[#FFE0E6] transition-colors cursor-pointer"
+                    title="Refresh Submissions"
+                  >
+                    <RefreshCw className={`w-4 h-4 text-[#49333A] ${loading ? 'animate-spin' : ''}`} />
+                  </button>
+
+                  <button
+                    onClick={handleLogout}
+                    className="px-3.5 py-1.5 rounded-full border border-[#49333A]/20 text-xs font-bold text-[#49333A] hover:bg-[#FFE0E6] cursor-pointer"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
 
           {/* Submissions List */}
           {filteredSubmissions.length === 0 ? (
@@ -473,6 +853,8 @@ export const OwnerDashboard: React.FC = () => {
               </div>
             </div>
           )}
+        </>
+      )}
         </div>
       )}
     </div>

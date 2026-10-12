@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sparkles, Heart, Image as ImageIcon, Camera, Download, Maximize2 } from 'lucide-react';
+import { Sparkles, Heart, Image as ImageIcon, Camera, Download, Maximize2, Crown } from 'lucide-react';
 import { AnimatedEnvelope } from '../components/letter/AnimatedEnvelope';
 import { ROMANTIC_CONFIG } from '../config/romanticMessages';
 import { MobileContainer } from '../components/common/MobileContainer';
@@ -142,11 +142,20 @@ export const ScreenOneLetter: React.FC = () => {
           <div className="flex items-center gap-2.5 flex-wrap justify-center">
             <button
               type="button"
+              onClick={() => navigate('/favorites')}
+              className="inline-flex items-center gap-2 py-2.5 px-4 rounded-full bg-gradient-to-r from-[#FFE0E6] to-[#FFF0F5] border border-[#FFB7C5] text-xs font-bold text-[#E94F64] hover:border-[#E94F64] hover:bg-white shadow-xs cursor-pointer transition-all hover:scale-103"
+            >
+              <Crown className="w-4 h-4 text-[#E94F64] fill-[#E94F64]/20" />
+              <span>Queen's Handbook 👑</span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => navigate('/memories')}
               className="inline-flex items-center gap-2 py-2.5 px-4 rounded-full bg-white/95 backdrop-blur-md border border-[#FFB7C5]/60 text-xs font-bold text-[#3D2730] hover:border-[#E94F64] hover:text-[#E94F64] hover:bg-white shadow-xs cursor-pointer transition-all hover:scale-103"
             >
               <Camera className="w-4 h-4 text-[#E94F64]" />
-              <span>Our Love Journal 📖</span>
+              <span>Love Journal 📖</span>
             </button>
 
             <button
@@ -159,7 +168,7 @@ export const ScreenOneLetter: React.FC = () => {
             </button>
           </div>
           <p className="text-[11px] text-[#3D2730]/65 font-medium">
-            Preserve our date moments in our Love Journal or install on desktop/phone
+            Fill Chotu's favorites, preserve romantic memories, or install on mobile/desktop
           </p>
         </motion.div>
 

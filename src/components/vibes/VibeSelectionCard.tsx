@@ -1,19 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, Heart, ArrowRight } from 'lucide-react';
+import { Check, Heart, ArrowRight, Sparkles } from 'lucide-react';
 import type { DateVibeOption } from '../../types';
 import { getVibeDoodleIcon } from '../common/CuteDoodles';
 
 interface VibeSelectionCardProps {
   vibe: DateVibeOption;
   isSelected: boolean;
+  isChotuFavorite?: boolean;
   onSelect: () => void;
 }
 
 export const VibeSelectionCard: React.FC<VibeSelectionCardProps> = ({
   vibe,
   isSelected,
+  isChotuFavorite,
   onSelect,
 }) => {
   const navigate = useNavigate();
@@ -46,9 +48,17 @@ export const VibeSelectionCard: React.FC<VibeSelectionCardProps> = ({
               <h3 className="font-display text-lg sm:text-xl font-extrabold text-[#3D2730] leading-tight tracking-tight">
                 {vibe.title}
               </h3>
-              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/40 inline-flex items-center mt-1">
-                {vibe.hindiTitle}
-              </span>
+              <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/40 inline-flex items-center">
+                  {vibe.hindiTitle}
+                </span>
+                {isChotuFavorite && (
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-gradient-to-r from-[#FFF0F5] to-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5] shadow-2xs inline-flex items-center gap-1">
+                    <Sparkles className="w-2.5 h-2.5 text-[#E94F64] animate-spin" />
+                    <span>Chotu's Fav! 👑</span>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
