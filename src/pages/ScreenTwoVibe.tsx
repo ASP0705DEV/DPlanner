@@ -28,21 +28,21 @@ export const ScreenTwoVibe: React.FC = () => {
           <span>Step 1: Pick Today's Vibe</span>
         </div>
 
-        <h1 className="font-handwritten text-4xl font-bold text-[#49333A] mb-1.5 leading-tight">
+        <h1 className="font-display text-3xl sm:text-4xl font-black text-[#3D2730] mb-1.5 leading-tight tracking-tight">
           {ROMANTIC_CONFIG.vibeScreen.heading}
         </h1>
 
-        <p className="text-xs text-[#49333A]/80 font-medium">
+        <p className="text-xs sm:text-sm text-[#3D2730]/75 font-medium">
           {ROMANTIC_CONFIG.vibeScreen.subheading}
         </p>
 
-        <p className="text-[11px] text-[#E94F64] font-bold mt-2 bg-white/80 py-1 px-3 rounded-full inline-block border border-[#FFB7C5]/40 shadow-xs">
+        <p className="text-[11px] text-[#E94F64] font-bold mt-2 bg-white/90 py-1 px-3 rounded-full inline-block border border-[#FFB7C5]/40 shadow-xs">
           Pick one mood today — Sonu will customize every detail!
         </p>
       </div>
 
       {/* Single-select Vibe Cards in Responsive Modern Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 mb-8">
         {DATE_VIBES.map((vibe) => {
           const isSelected = selectedVibeId === vibe.id;
           return (
@@ -56,14 +56,16 @@ export const ScreenTwoVibe: React.FC = () => {
         })}
       </div>
 
-      {/* Persistent Step Navigation at bottom of list */}
-      <StepNavigation
-        prevPath="/"
-        prevLabel="Letter"
-        nextPath="/customize"
-        nextLabel={`Customize ${chosenVibe.title}`}
-        sweetNote="You pick the vibe, Sonu plans the magic"
-      />
+      {/* Persistent Step Navigation when nothing is selected */}
+      {!selectedVibeId && (
+        <StepNavigation
+          prevPath="/"
+          prevLabel="Letter"
+          nextPath="/customize"
+          nextLabel={`Customize ${chosenVibe.title}`}
+          sweetNote="You pick the vibe, Sonu plans the magic"
+        />
+      )}
 
       {/* FLOATING NEXT DOCK AT THE BOTTOM WHEN ANY VIBE IS SELECTED */}
       <AnimatePresence>
@@ -75,8 +77,8 @@ export const ScreenTwoVibe: React.FC = () => {
             transition={{ type: 'spring', stiffness: 280, damping: 24 }}
             className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none"
           >
-            <div className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto p-3 sm:p-4 pointer-events-auto">
-              <div className="bg-white/90 backdrop-blur-2xl rounded-2xl sm:rounded-full border border-white/95 p-3 sm:px-5 shadow-[0_15px_40px_-8px_rgba(233,79,100,0.25)] flex items-center justify-between gap-3 ring-1 ring-[#FFB7C5]/40">
+            <div className="max-w-[430px] mx-auto p-2.5 sm:p-3 pointer-events-auto">
+              <div className="bg-white/95 backdrop-blur-2xl rounded-2xl border border-white/95 p-3 shadow-[0_15px_40px_-8px_rgba(233,79,100,0.25)] flex items-center justify-between gap-3 ring-1 ring-[#FFB7C5]/40">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#FFE0E6] to-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
                     {getVibeDoodleIcon(chosenVibe.id, 'w-6 h-6')}

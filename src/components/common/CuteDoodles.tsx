@@ -630,3 +630,55 @@ export const getPitstopDoodleIcon = (pitstopId: string, className = 'w-6 h-6') =
       return <DoodleCoffeeMug className={className} />;
   }
 };
+
+// --- EXTRA PLAYFUL FLOATING DOODLES ---
+
+export const DoodleVintageCamera: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <rect x="5" y="10" width="22" height="16" rx="4" fill="#FFE0E6" stroke="#E94F64" strokeWidth="1.8" />
+    <path d="M11 10V7a1 1 0 011-1h8a1 1 0 011 1v3" fill="#FFB7C5" stroke="#E94F64" strokeWidth="1.5" />
+    <circle cx="16" cy="18" r="5" fill="#FFF8F0" stroke="#E94F64" strokeWidth="1.8" />
+    <circle cx="16" cy="18" r="2.5" fill="#E94F64" />
+    <circle cx="23" cy="13" r="1.5" fill="#FFB7C5" />
+  </svg>
+);
+
+export const DoodleMusicNotes: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <circle cx="10" cy="22" r="3.5" fill="#FFB7C5" stroke="#E94F64" strokeWidth="1.5" />
+    <circle cx="22" cy="18" r="3.5" fill="#FFB7C5" stroke="#E94F64" strokeWidth="1.5" />
+    <path d="M13.5 22V9l12-3v12" stroke="#E94F64" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M13.5 13l12-3" stroke="#E94F64" strokeWidth="1.8" />
+  </svg>
+);
+
+export const DoodleLoveEnvelope: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <rect x="4" y="8" width="24" height="16" rx="3" fill="#FFFDF9" stroke="#E94F64" strokeWidth="1.8" />
+    <path d="M4 9l12 9 12-9" stroke="#E94F64" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="16" cy="18" r="3" fill="#E94F64" />
+    <path d="M16 19.5l-1.2-1.1c-1.3-1.1-.9-2.4.4-2.4.8 0 1.2.6 1.4 1 .2-.4.6-1 1.4-1 1.3 0 1.7 1.3.4 2.4L16 19.5z" fill="#FFFFFF" />
+  </svg>
+);
+
+export const DoodleHeartBalloon: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path
+      d="M16 20c-4-4-8-7.5-8-11.5a5.5 5.5 0 0110-3 5.5 5.5 0 0110 3c0 4-4 7.5-8 11.5l-2 2-2-2z"
+      fill="#FFE0E6"
+      stroke="#E94F64"
+      strokeWidth="1.6"
+    />
+    <path d="M16 22l-1 2h2l-1-2" fill="#E94F64" stroke="#E94F64" strokeWidth="1" />
+    <path d="M16 24c-1 3 2 5 0 7" stroke="#E94F64" strokeWidth="1.2" strokeLinecap="round" />
+  </svg>
+);
+
+export const DoodleSparklesCluster: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M14 4l2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5z" fill="#F59E0B" stroke="#F59E0B" strokeWidth="1" />
+    <path d="M24 16l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" fill="#EC4899" stroke="#EC4899" strokeWidth="0.8" />
+    <circle cx="9" cy="22" r="1.5" fill="#E94F64" />
+    <circle cx="21" cy="7" r="1" fill="#F59E0B" />
+  </svg>
+);

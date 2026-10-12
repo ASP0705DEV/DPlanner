@@ -28,9 +28,9 @@ export const Header: React.FC = () => {
   const isSecretDashboard = location.pathname.startsWith('/our-secret-dashboard');
 
   return (
-    <header className="sticky top-2 z-40 px-2 sm:px-4 py-1.5 transition-all">
-      <div className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto bg-white/85 backdrop-blur-2xl border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.1)] rounded-3xl sm:rounded-full px-3.5 sm:px-5 py-2 transition-all">
-        <div className="flex items-center justify-between gap-2.5">
+    <header className="sticky top-1 sm:top-2 z-40 px-2 py-1.5 transition-all">
+      <div className="max-w-[430px] mx-auto bg-white/90 backdrop-blur-2xl border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.12)] rounded-3xl px-3.5 py-2 transition-all">
+        <div className="flex items-center justify-between gap-2">
           {/* Brand / Title with Modern Luxe Accent */}
           <Link
             to="/"
@@ -43,41 +43,41 @@ export const Header: React.FC = () => {
               <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#E94F64] animate-ping" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-display text-sm sm:text-base font-bold text-[#3D2730] tracking-tight leading-none">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="font-display text-sm sm:text-base font-extrabold text-[#3D2730] tracking-tight leading-none">
                   Sonu & Chotu
                 </span>
-                <span className="bg-[#FFE0E6] text-[#E94F64] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs">
+                <span className="hidden sm:inline-flex bg-[#FFE0E6] text-[#E94F64] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs">
                   For {ROMANTIC_CONFIG.girlfriendNickname} 💕
                 </span>
               </div>
             </div>
           </Link>
 
-          {/* Right Side Actions: Install App + Feed Link + Chosen Vibe + Lock */}
-          <div className="flex items-center gap-1.5">
+          {/* Right Side Actions: Install App + Journal Link + Chosen Vibe + Lock */}
+          <div className="flex items-center gap-1.5 shrink-0">
             <button
               type="button"
               onClick={() => setShowInstallModal(true)}
-              className="text-[11px] font-bold px-2.5 py-1.5 rounded-full bg-[#FFFDF9] text-[#3D2730]/80 border border-[#3D2730]/10 hover:border-[#FFB7C5] hover:text-[#E94F64] hover:bg-white inline-flex items-center gap-1 cursor-pointer transition-all shadow-2xs hover:scale-102"
+              className="text-[11px] font-bold px-2 sm:px-2.5 py-1.5 rounded-full bg-[#FFFDF9] text-[#3D2730]/80 border border-[#3D2730]/10 hover:border-[#FFB7C5] hover:text-[#E94F64] hover:bg-white inline-flex items-center gap-1 cursor-pointer transition-all shadow-2xs hover:scale-102"
               title="Download app to desktop or phone"
             >
               <Download className="w-3.5 h-3.5 text-[#E94F64]" />
               <span className="hidden sm:inline">Install App</span>
-              <span className="sm:hidden">App 📲</span>
+              <span className="sm:hidden text-[10px]">App 📲</span>
             </button>
 
             <Link
               to="/memories"
-              className={`text-[11px] font-bold px-3 py-1.5 rounded-full border inline-flex items-center gap-1.5 transition-all shadow-2xs hover:scale-102 ${
+              className={`text-[11px] font-bold px-2.5 sm:px-3 py-1.5 rounded-full border inline-flex items-center gap-1.5 transition-all shadow-2xs hover:scale-102 ${
                 isMemories
                   ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white border-transparent shadow-xs'
                   : 'bg-white text-[#E94F64] border-[#FFB7C5]/60 hover:bg-[#FFE0E6]/50'
               }`}
-              title="View our romantic Instagram feed & post memories"
+              title="View our romantic memory journal"
             >
               <Camera className="w-3.5 h-3.5" />
-              <span>Feed 📸</span>
+              <span>Journal 📖</span>
             </Link>
 
             {isUnlocked && (
@@ -102,7 +102,7 @@ export const Header: React.FC = () => {
 
         {/* Modern Step Indicator Bar */}
         {!isHome && !isSecretDashboard && !isMemories && (
-          <div className="mt-2 pt-2 border-t border-[#3D2730]/5 flex items-center justify-between gap-1.5">
+          <div className="mt-2 pt-2 border-t border-[#3D2730]/5 grid grid-cols-4 gap-1">
             {steps.map((step) => {
               const isActive = location.pathname === step.path;
               const StepIcon = step.icon;
@@ -110,13 +110,13 @@ export const Header: React.FC = () => {
                 <Link
                   key={step.path}
                   to={step.path}
-                  className={`flex-1 flex items-center justify-center gap-1 py-1 rounded-full text-[10px] sm:text-[11px] font-bold transition-all ${
+                  className={`flex items-center justify-center gap-1 py-1 px-1 rounded-full text-[10px] sm:text-[11px] font-bold transition-all text-center ${
                     isActive
                       ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white shadow-xs scale-101'
                       : 'text-[#3D2730]/65 hover:bg-[#FFE0E6]/50 hover:text-[#3D2730]'
                   }`}
                 >
-                  <StepIcon className="w-3 h-3 shrink-0" />
+                  <StepIcon className="w-3 h-3 shrink-0 hidden xs:inline" />
                   <span className="truncate">{step.label}</span>
                 </Link>
               );

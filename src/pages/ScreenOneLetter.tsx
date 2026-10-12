@@ -24,13 +24,13 @@ export const ScreenOneLetter: React.FC = () => {
   };
 
   return (
-    <MobileContainer className="px-4 sm:px-8 py-8 sm:py-10 flex flex-col justify-between items-center text-center">
-      <div className="w-full my-auto z-10 max-w-xl mx-auto">
+    <MobileContainer className="px-4 sm:px-5 py-6 sm:py-8 flex flex-col justify-between items-center text-center">
+      <div className="w-full my-auto z-10 mx-auto">
         {/* Intro Tag */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-gradient-to-r from-[#FFE0E6] via-[#FFF0F5] to-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/60 text-xs font-extrabold uppercase tracking-wider mb-3 shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#FFE0E6] via-[#FFF0F5] to-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/60 text-[11px] font-extrabold uppercase tracking-wider mb-2.5 shadow-2xs"
         >
           <Sparkles className="w-3.5 h-3.5 text-[#E94F64] animate-spin" />
           <span>{ROMANTIC_CONFIG.heroSubtitle}</span>
@@ -41,7 +41,7 @@ export const ScreenOneLetter: React.FC = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-[#3D2730] tracking-tight mb-2.5 leading-tight"
+          className="font-display text-3xl sm:text-4xl font-black text-[#3D2730] tracking-tight mb-2 leading-tight"
         >
           {ROMANTIC_CONFIG.heroGreeting}
         </motion.h1>
@@ -146,7 +146,7 @@ export const ScreenOneLetter: React.FC = () => {
               className="inline-flex items-center gap-2 py-2.5 px-4 rounded-full bg-white/95 backdrop-blur-md border border-[#FFB7C5]/60 text-xs font-bold text-[#3D2730] hover:border-[#E94F64] hover:text-[#E94F64] hover:bg-white shadow-xs cursor-pointer transition-all hover:scale-103"
             >
               <Camera className="w-4 h-4 text-[#E94F64]" />
-              <span>Our Love Feed 📸</span>
+              <span>Our Love Journal 📖</span>
             </button>
 
             <button
@@ -159,7 +159,7 @@ export const ScreenOneLetter: React.FC = () => {
             </button>
           </div>
           <p className="text-[11px] text-[#3D2730]/65 font-medium">
-            Share our date moments on our Instagram feed or install on desktop/phone
+            Preserve our date moments in our Love Journal or install on desktop/phone
           </p>
         </motion.div>
 

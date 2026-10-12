@@ -8,35 +8,48 @@ import {
   ArrowLeft,
   CheckCircle2,
   Lock,
+  Share2,
 } from 'lucide-react';
-import type { LoveMemory } from '../types/memory';
-import { InstagramStoriesTray } from '../components/instagram/InstagramStoriesTray';
-import { InstagramPostCard } from '../components/instagram/InstagramPostCard';
-import { InstagramCreatePostForm } from '../components/instagram/InstagramCreatePostForm';
+import type { LoveMemory, MemoryCategory } from '../types/memory';
+import { CURATED_LOVE_MEMORIES } from '../data/memoriesData';
+import { MemoryJournalCard } from '../components/memories/MemoryJournalCard';
+import { MultiShareFloatingBar } from '../components/memories/MultiShareFloatingBar';
+import { MemoriesHighlightReel } from '../components/memories/MemoriesHighlightReel';
+import { CreateMemoryModal } from '../components/memories/CreateMemoryModal';
 import { ImageLightboxModal } from '../components/common/ImageLightboxModal';
 import { MobileContainer } from '../components/common/MobileContainer';
 import { useAuth } from '../context/AuthContext';
+import { playHeartNudgeSound } from '../utils/soundEffects';
 
-const FEED_STORAGE_KEY = 'chotu_user_instagram_posts_v3';
+const FEED_STORAGE_KEY = 'chotu_user_love_journal_v4';
 
 export const ScreenMemoriesMagazine: React.FC = () => {
   const { logout } = useAuth();
 
-  // Empty by default as requested: user creates their memories via the form
+  // Load from localStorage, or provide curated memories
   const [posts, setPosts] = useState<LoveMemory[]>(() => {
     try {
       const saved = localStorage.getItem(FEED_STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn('Failed to load feed posts from storage', e);
     }
-    return [];
+    // Default to curated date memories so the journal is immediately alive
+    return CURATED_LOVE_MEMORIES;
   });
 
+  const [activeCategory, setActiveCategory] = useState<MemoryCategory>('all');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedLightboxMemory, setSelectedLightboxMemory] = useState<LoveMemory | null>(null);
+
+  // Multi-Photo Selection Mode state
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [selectedMemoryIds, setSelectedMemoryIds] = useState<string[]>([]);
 
   useEffect(() => {
     try {
@@ -52,9 +65,28 @@ export const ScreenMemoriesMagazine: React.FC = () => {
 
   const handleDeletePost = (id: string) => {
     setPosts((prev) => prev.filter((p) => p.id !== id));
+    setSelectedMemoryIds((prev) => prev.filter((i) => i !== id));
   };
 
-  const handleStorySelect = (story: {
+  const handleToggleSelectMemory = (id: string) => {
+    playHeartNudgeSound(1);
+    setSelectedMemoryIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const handleClearSelection = () => {
+    setSelectedMemoryIds([]);
+    setIsSelectionMode(false);
+  };
+
+  const handleSelectAll = () => {
+    const visibleIds = filteredPosts.map((p) => p.id);
+    setSelectedMemoryIds(visibleIds);
+    playHeartNudgeSound(2);
+  };
+
+  const handleHighlightSelect = (item: {
     id: string;
     label: string;
     image: string;
@@ -62,99 +94,130 @@ export const ScreenMemoriesMagazine: React.FC = () => {
     caption: string;
   }) => {
     setSelectedLightboxMemory({
-      id: story.id,
-      title: story.label,
-      date: 'Our Love Story',
-      location: story.location,
+      id: item.id,
+      title: item.label,
+      date: 'Special Moment',
+      location: item.location,
       category: 'special',
-      categoryLabel: story.label,
-      photoUrl: story.image,
-      caption: story.caption,
-      story: story.caption,
+      categoryLabel: item.label,
+      photoUrl: item.image,
+      caption: item.caption,
+      story: item.caption,
     });
   };
 
-  const handleLoadSamplePost = () => {
-    const samplePost: LoveMemory = {
-      id: `sample-${Date.now()}`,
-      title: 'Sharodiya Utsav & Pandal Hopping with My Rani Saheba 🪔',
-      date: 'Durga Puja Ashtami Night',
-      location: 'Kasidih Durga Puja Pandal, Sakchi',
-      category: 'festive',
-      categoryLabel: '🪔 Durga Puja Special',
-      photoUrl: '/photos/chotu_saree.jpg',
-      caption: 'Dhaak beats, festive lights, and holding hands tightly in the crowd.',
-      story:
-        'Chotu looked absolutely stunning in her festive saree! We walked hand in hand through the illumination gates of Kasidih, ate hot puchka and Kathi rolls, and admired Maa Durga together. Sonu’s favorite view was Chotu’s sparkling smile in the festive lights.',
-      sonuNote: 'I’d walk across every pandal in Jamshedpur a thousand times just to see you smile like this 💕',
-      isUserAdded: true,
-      createdAt: new Date().toISOString(),
-    };
-    setPosts([samplePost, ...posts]);
+  const handleRestoreCuratedMemories = () => {
+    setPosts(CURATED_LOVE_MEMORIES);
+    playHeartNudgeSound(3);
   };
 
+  // Filter posts by category
+  const filteredPosts =
+    activeCategory === 'all'
+      ? posts
+      : posts.filter((p) => p.category === activeCategory);
+
+  const selectedMemoriesList = posts.filter((p) => selectedMemoryIds.includes(p.id));
+
+  const filterCategories: { id: MemoryCategory; label: string }[] = [
+    { id: 'all', label: 'All Moments' },
+    { id: 'festive', label: '🪔 Durga Puja' },
+    { id: 'road-ride', label: '🛵 Road Rides' },
+    { id: 'cafe', label: '☕ Cafe Dates' },
+    { id: 'nature', label: '🌻 Nature & Us' },
+    { id: 'cuddle', label: '🛋️ Cozy Peace' },
+    { id: 'fun', label: '🏎️ Games & Fun' },
+  ];
+
   return (
-    <MobileContainer className="px-3 sm:px-4 py-4 pb-28">
-      {/* 1. INSTAGRAM PROFILE HEADER */}
-      <div className="glass-panel bg-white/90 backdrop-blur-2xl border border-white/95 p-5 sm:p-6 shadow-[0_15px_35px_-5px_rgba(233,79,100,0.08)] mb-5">
+    <MobileContainer className="px-3.5 sm:px-4 py-3 sm:py-4 pb-32">
+      {/* 1. LUXURY EDITORIAL JOURNAL HEADER */}
+      <div className="glass-panel bg-white/92 backdrop-blur-2xl border border-white/95 p-4 sm:p-5 shadow-[0_15px_40px_-10px_rgba(233,79,100,0.12)] mb-5 rounded-[2rem]">
+        {/* Top Tag & Lock Button */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/60 text-[10px] font-extrabold uppercase tracking-wider shadow-2xs">
+            <Sparkles className="w-3 h-3 text-[#E94F64]" />
+            <span>The Love Archive • Jamshedpur Edition</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={logout}
+            className="p-1.5 rounded-full bg-white text-[#3D2730]/70 border border-[#3D2730]/12 hover:border-[#FCA5A5] hover:text-[#DC2626] hover:bg-[#FEE2E2] cursor-pointer transition-all shadow-2xs hover:scale-105"
+            title="Lock journal for Chotu only 🔒"
+          >
+            <Lock className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Profile / Journal Brand */}
         <div className="flex items-start justify-between gap-4 mb-4">
-          {/* Avatar with Gradient Story Ring */}
-          <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] shrink-0 shadow-sm">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white p-1 overflow-hidden">
+          <div className="flex items-center gap-3.5">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-white p-0.5 shadow-md bg-gradient-to-tr from-[#FFB7C5] via-[#FF758F] to-[#E94F64] shrink-0">
               <img
                 src="/photos/sonu_chotu_tilak_night.jpg"
-                alt="chotu_and_sonu"
-                className="w-full h-full object-cover rounded-full"
+                alt="Sonu & Chotu"
+                className="w-full h-full object-cover rounded-xl"
               />
             </div>
+
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h1 className="font-display font-black text-xl sm:text-2xl text-[#3D2730] tracking-tight leading-none">
+                  Sonu & Chotu
+                </h1>
+                <CheckCircle2 className="w-4 h-4 text-[#E94F64] fill-[#FFE0E6] shrink-0" />
+              </div>
+              <p className="text-xs font-bold text-[#E94F64] mt-1 leading-snug">
+                Our Private Keepsake Journal 💍
+              </p>
+              <p className="text-[11px] text-[#3D2730]/75 font-medium mt-0.5 hidden sm:block">
+                Marking every date moment, festive smile, and quiet corner in Jamshedpur.
+              </p>
+            </div>
           </div>
 
-          {/* Stats Bar */}
-          <div className="flex-1 flex items-center justify-around text-center pt-2 sm:pt-3">
-            <div>
-              <span className="block font-display font-extrabold text-base sm:text-lg text-[#3D2730]">
-                {posts.length}
-              </span>
-              <span className="text-[10px] text-[#3D2730]/60 font-bold uppercase tracking-wider">Posts</span>
-            </div>
-            <div>
-              <span className="block font-display font-extrabold text-base sm:text-lg text-[#E94F64]">
-                15+
-              </span>
-              <span className="text-[10px] text-[#3D2730]/60 font-bold uppercase tracking-wider">Vibes</span>
-            </div>
-            <div>
-              <span className="block font-display font-extrabold text-base sm:text-lg text-[#E94F64]">
-                Forever
-              </span>
-              <span className="text-[10px] text-[#3D2730]/60 font-bold uppercase tracking-wider">Love</span>
-            </div>
+          {/* Quick Counter */}
+          <div className="text-right shrink-0 pt-1">
+            <span className="block font-display font-black text-2xl text-[#E94F64] leading-none">
+              {posts.length}
+            </span>
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#3D2730]/60">
+              Moments
+            </span>
           </div>
         </div>
 
-        {/* Bio */}
-        <div className="mb-4 text-xs text-[#3D2730]">
-          <div className="flex items-center gap-1.5 font-bold text-sm text-[#3D2730] mb-0.5">
-            <span className="font-display font-bold">chotu_and_sonu</span>
-            <CheckCircle2 className="w-4 h-4 text-[#E94F64] fill-[#FFE0E6]" />
-          </div>
-          <p className="font-bold text-[11px] text-[#E94F64] mb-1">
-            Sonu & Chotu • Our Private Love Feed 💍
-          </p>
-          <p className="text-[11px] text-[#3D2730]/80 leading-relaxed font-medium">
-            Marking our date moments, festive smiles, and quiet hugs across Jamshedpur. Locked & private for us only 💕
-          </p>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2">
+        {/* Action Controls Toolbar */}
+        <div className="flex items-center gap-2 pt-2 border-t border-[#3D2730]/6">
           <button
             type="button"
             onClick={() => setIsCreateModalOpen(true)}
-            className="flex-1 btn-pookie flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold cursor-pointer shadow-sm hover:scale-102 active:scale-98 transition-transform"
+            className="flex-1 btn-pookie flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-bold cursor-pointer shadow-sm hover:scale-102 active:scale-98 transition-transform"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
-            <span>Add Memory Post 📸</span>
+            <span>Add Memory 📸</span>
+          </button>
+
+          {/* Multiple Photo Selection Mode Toggle */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsSelectionMode(!isSelectionMode);
+              if (isSelectionMode) setSelectedMemoryIds([]);
+            }}
+            className={`px-3 py-2.5 rounded-2xl border text-xs font-bold inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs hover:scale-102 ${
+              isSelectionMode
+                ? 'bg-[#E94F64] text-white border-[#E94F64] shadow-xs'
+                : 'bg-white text-[#3D2730] border-[#FFB7C5] hover:bg-[#FFE0E6]/50'
+            }`}
+            title="Select multiple photos to share together"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">
+              {isSelectionMode ? 'Cancel Select' : 'Multi-Share Photos'}
+            </span>
+            <span className="sm:hidden">{isSelectionMode ? 'Cancel' : 'Select'}</span>
           </button>
 
           <Link
@@ -164,81 +227,98 @@ export const ScreenMemoriesMagazine: React.FC = () => {
           >
             <Sparkles className="w-4 h-4" />
           </Link>
-
-          <button
-            type="button"
-            onClick={logout}
-            className="p-2.5 rounded-2xl bg-[#FEE2E2] border border-[#FCA5A5] text-[#DC2626] text-xs font-bold hover:bg-[#FCA5A5]/30 cursor-pointer transition-colors shadow-2xs hover:scale-102"
-            title="Lock our app"
-          >
-            <Lock className="w-4 h-4" />
-          </button>
         </div>
+
+        {/* Multi-Selection Control Bar (When active) */}
+        {isSelectionMode && (
+          <div className="mt-3 pt-3 border-t border-[#3D2730]/6 flex items-center justify-between text-xs">
+            <span className="text-[#3D2730]/80 font-bold">
+              Tap checkboxes on photos to select:
+            </span>
+            <button
+              type="button"
+              onClick={handleSelectAll}
+              className="text-[#E94F64] font-extrabold hover:underline cursor-pointer"
+            >
+              Select All ({filteredPosts.length})
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* 2. INSTAGRAM STORIES TRAY */}
-      <InstagramStoriesTray onSelectStory={handleStorySelect} />
+      {/* 2. FEATURED DATE HIGHLIGHTS REEL (CAROUSEL) */}
+      <MemoriesHighlightReel onSelectHighlight={handleHighlightSelect} />
 
-      {/* 3. POSTS FEED */}
+      {/* 3. CATEGORY FILTER CHIPS */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-5 scrollbar-none -mx-3.5 px-3.5 sm:-mx-0 sm:px-0">
+        {filterCategories.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => {
+                setActiveCategory(cat.id);
+                playHeartNudgeSound(1);
+              }}
+              className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shadow-2xs hover:scale-102 ${
+                isActive
+                  ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white shadow-xs'
+                  : 'bg-white/90 text-[#3D2730]/75 border border-[#3D2730]/10 hover:border-[#FFB7C5] hover:text-[#E94F64]'
+              }`}
+            >
+              {cat.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 4. MEMORIES LIST (EDITORIAL MAGAZINE CARDS) */}
       <div>
-        <div className="flex items-center justify-between mb-3 px-1">
-          <h2 className="font-bold text-xs uppercase tracking-wider text-[#49333A]/70 flex items-center gap-1.5">
-            <Camera className="w-3.5 h-3.5 text-[#E94F64]" />
-            <span>Memories Feed ({posts.length})</span>
-          </h2>
-
-          <button
-            type="button"
-            onClick={() => setIsCreateModalOpen(true)}
-            className="text-xs font-bold text-[#E94F64] hover:underline cursor-pointer flex items-center gap-1"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>New Post</span>
-          </button>
-        </div>
-
-        {posts.length === 0 ? (
-          /* Clean Instagram-style Empty State */
-          <div className="bg-white rounded-3xl border border-[#49333A]/15 p-8 text-center shadow-xs">
+        {filteredPosts.length === 0 ? (
+          /* Clean Empty State */
+          <div className="glass-panel bg-white/90 rounded-[2rem] border border-white/95 p-8 text-center shadow-xs">
             <div className="w-16 h-16 rounded-full bg-[#FFE0E6] border border-[#FFB7C5] flex items-center justify-center mx-auto mb-3 text-[#E94F64]">
               <Camera className="w-8 h-8" />
             </div>
 
-            <h3 className="font-handwritten text-3xl font-bold text-[#49333A] mb-1">
-              No Memory Posts Yet 📸
+            <h3 className="font-display font-black text-2xl text-[#3D2730] mb-1">
+              No Memories in this category 📸
             </h3>
 
-            <p className="text-xs text-[#49333A]/75 max-w-xs mx-auto mb-4 leading-relaxed">
-              Start sharing your favorite date photos, Durga Puja smiles, or late-night rides! Every post displays full uncropped photos like an authentic Instagram feed.
+            <p className="text-xs text-[#3D2730]/75 max-w-xs mx-auto mb-5 leading-relaxed">
+              Add your favorite date moments or restore our curated Jamshedpur memories!
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-xs mx-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-sm mx-auto">
               <button
                 type="button"
                 onClick={() => setIsCreateModalOpen(true)}
                 className="w-full btn-pookie flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
-                <span>Create Your First Post 💖</span>
+                <span>Add New Memory 💖</span>
               </button>
 
               <button
                 type="button"
-                onClick={handleLoadSamplePost}
-                className="w-full px-3 py-2.5 rounded-2xl bg-[#FFF8F0] border border-[#FFB7C5] text-xs font-bold text-[#E94F64] hover:bg-[#FFE0E6] cursor-pointer"
+                onClick={handleRestoreCuratedMemories}
+                className="w-full px-3 py-2.5 rounded-2xl bg-white border border-[#FFB7C5] text-xs font-bold text-[#E94F64] hover:bg-[#FFE0E6] cursor-pointer"
               >
-                Load Sample Durga Puja Post 🪔
+                Load All Curated Memories 🪔
               </button>
             </div>
           </div>
         ) : (
-          /* Active Instagram Post Cards */
           <div>
             <AnimatePresence>
-              {posts.map((post) => (
-                <InstagramPostCard
+              {filteredPosts.map((post) => (
+                <MemoryJournalCard
                   key={post.id}
                   memory={post}
+                  isSelected={selectedMemoryIds.includes(post.id)}
+                  isSelectionMode={isSelectionMode}
+                  onToggleSelect={handleToggleSelectMemory}
                   onDelete={handleDeletePost}
                   onOpenLightbox={(mem) => setSelectedLightboxMemory(mem)}
                 />
@@ -248,26 +328,32 @@ export const ScreenMemoriesMagazine: React.FC = () => {
         )}
       </div>
 
-      {/* Footer Return */}
-      <div className="mt-8 pt-4 border-t border-[#49333A]/10 flex items-center justify-between text-xs font-bold text-[#49333A]/70">
+      {/* 5. MULTI-PHOTO BATCH SHARING FLOATING DOCK */}
+      <MultiShareFloatingBar
+        selectedMemories={selectedMemoriesList}
+        onClearSelection={handleClearSelection}
+      />
+
+      {/* 6. FOOTER RETURN */}
+      <div className="mt-8 pt-4 border-t border-[#3D2730]/10 flex items-center justify-between text-xs font-bold text-[#3D2730]/70">
         <Link to="/" className="inline-flex items-center gap-1 hover:text-[#E94F64]">
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Letter</span>
+          <span>Back to Letter</span>
         </Link>
         <Link to="/vibe" className="inline-flex items-center gap-1 text-[#E94F64] hover:underline">
-          <span>Plan a Date</span>
+          <span>Plan a Date Next</span>
           <Sparkles className="w-3.5 h-3.5" />
         </Link>
       </div>
 
-      {/* Create Post Form Modal */}
-      <InstagramCreatePostForm
+      {/* 7. CREATE MEMORY MODAL */}
+      <CreateMemoryModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onAddMemory={handleAddPost}
       />
 
-      {/* Lightbox for Full Uncropped Image View */}
+      {/* 8. LIGHTBOX FOR FULL UNCROPPED VIEW */}
       <ImageLightboxModal
         isOpen={Boolean(selectedLightboxMemory)}
         onClose={() => setSelectedLightboxMemory(null)}

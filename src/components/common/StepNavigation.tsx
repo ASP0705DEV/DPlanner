@@ -40,8 +40,8 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
   };
 
   return (
-    <div className="sticky bottom-4 z-40 px-2 mt-8 pointer-events-none">
-      <div className="max-w-md mx-auto glass-panel p-3 bg-white/92 backdrop-blur-xl border border-white/95 shadow-[0_15px_35px_-5px_rgba(233,79,100,0.18)] pointer-events-auto rounded-3xl">
+    <div className="sticky bottom-3 z-40 px-2 mt-6 pointer-events-none">
+      <div className="max-w-[430px] mx-auto glass-panel p-2.5 sm:p-3 bg-white/95 backdrop-blur-xl border border-white/95 shadow-[0_15px_35px_-5px_rgba(233,79,100,0.18)] pointer-events-auto rounded-3xl">
         {sweetNote && (
           <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#3D2730]/75 font-semibold mb-2">
             <Heart className="w-3 h-3 fill-[#E94F64] text-[#E94F64] shrink-0 animate-pulse" />
