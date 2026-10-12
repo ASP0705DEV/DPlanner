@@ -1,5 +1,7 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, ArrowRight, Heart } from 'lucide-react';
 import { useDatePlanner } from '../context/DatePlannerContext';
 import { DATE_VIBES } from '../data/dateVibes';
 import { VibeSelectionCard } from '../components/vibes/VibeSelectionCard';
@@ -7,14 +9,16 @@ import { StepNavigation } from '../components/common/StepNavigation';
 import { ROMANTIC_CONFIG } from '../config/romanticMessages';
 import { WashiTape } from '../components/common/WashiTape';
 import { MobileContainer } from '../components/common/MobileContainer';
+import { getVibeDoodleIcon } from '../components/common/CuteDoodles';
 
 export const ScreenTwoVibe: React.FC = () => {
+  const navigate = useNavigate();
   const { selectedVibeId, selectVibe } = useDatePlanner();
 
   const chosenVibe = DATE_VIBES.find((v) => v.id === selectedVibeId) || DATE_VIBES[0];
 
   return (
-    <MobileContainer className="px-4 py-6 pb-24">
+    <MobileContainer className="px-4 py-6 pb-36 relative">
       {/* Header */}
       <div className="text-center max-w-sm mx-auto mb-6 relative">
         <WashiTape color="butter" rotate="rotate-1" />
@@ -52,7 +56,7 @@ export const ScreenTwoVibe: React.FC = () => {
         })}
       </div>
 
-      {/* Persistent Step Navigation */}
+      {/* Persistent Step Navigation at bottom of list */}
       <StepNavigation
         prevPath="/"
         prevLabel="Letter"
@@ -60,6 +64,47 @@ export const ScreenTwoVibe: React.FC = () => {
         nextLabel={`Customize ${chosenVibe.title}`}
         sweetNote="You pick the vibe, Sonu plans the magic"
       />
+
+      {/* FLOATING NEXT BUTTON AT THE END OF THE SCREEN WHEN ANY VIBE IS SELECTED */}
+      <AnimatePresence>
+        {selectedVibeId && (
+          <motion.div
+            initial={{ y: 90, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 90, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 24 }}
+            className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none"
+          >
+            <div className="max-w-md mx-auto p-3 sm:p-4 pointer-events-auto">
+              <div className="bg-[#FFF8F0]/95 backdrop-blur-md rounded-2xl border-2 border-[#E94F64] p-3 shadow-2xl flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-[#49333A]/15 flex items-center justify-center shrink-0 shadow-2xs">
+                    {getVibeDoodleIcon(chosenVibe.id, 'w-6 h-6')}
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-bold text-[#E94F64] uppercase tracking-wide flex items-center gap-1">
+                      <Heart className="w-2.5 h-2.5 fill-[#E94F64]" />
+                      <span>Ready to Plan</span>
+                    </span>
+                    <h4 className="font-handwritten text-xl font-bold text-[#49333A] leading-tight truncate">
+                      {chosenVibe.title}
+                    </h4>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => navigate('/customize')}
+                  className="btn-pookie flex items-center gap-2 py-2.5 px-4 text-xs font-bold shrink-0 shadow-md cursor-pointer hover:scale-102 active:scale-98 transition-transform"
+                >
+                  <span>Next: Details</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </MobileContainer>
   );
 };
