@@ -43,8 +43,8 @@ export const ScreenTwoVibe: React.FC = () => {
         </p>
       </div>
 
-      {/* Single-select Vibe Cards in Responsive Modern Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 mb-8">
+      {/* Single-select Vibe Cards in Mobile-First Layout */}
+      <div className="flex flex-col gap-4 mb-8">
         {DATE_VIBES.map((vibe) => {
           const isSelected = selectedVibeId === vibe.id;
           return (
