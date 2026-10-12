@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Sparkles, Sliders, Clock, FileHeart, BookOpen, Download } from 'lucide-react';
+import { Heart, Sparkles, Sliders, Clock, FileHeart, Camera, Download, Lock } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
+import { useAuth } from '../../context/AuthContext';
 import { ROMANTIC_CONFIG } from '../../config/romanticMessages';
 import { DATE_VIBES } from '../../data/dateVibes';
 import { getVibeDoodleIcon } from './CuteDoodles';
@@ -10,6 +11,7 @@ import { InstallAppModal } from './InstallAppModal';
 export const Header: React.FC = () => {
   const location = useLocation();
   const { selectedVibeId } = useDatePlanner();
+  const { logout, isUnlocked } = useAuth();
   const [showInstallModal, setShowInstallModal] = useState(false);
 
   const chosenVibe = DATE_VIBES.find((v) => v.id === selectedVibeId);
@@ -48,7 +50,7 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        {/* Right Side: Install App + Magazine Link + Chosen Vibe */}
+        {/* Right Side: Install App + Feed Link + Chosen Vibe + Lock */}
         <div className="flex items-center gap-1.5">
           <button
             type="button"
@@ -68,11 +70,22 @@ export const Header: React.FC = () => {
                 ? 'bg-[#E94F64] text-white border-[#E94F64] shadow-xs'
                 : 'bg-white text-[#E94F64] border-[#FFB7C5] hover:bg-[#FFE0E6]'
             }`}
-            title="Read our Love Life Magazine"
+            title="View our romantic Instagram feed & post memories"
           >
-            <BookOpen className="w-3 h-3" />
-            <span>Magazine 📖</span>
+            <Camera className="w-3 h-3" />
+            <span>Feed 📸</span>
           </Link>
+
+          {isUnlocked && (
+            <button
+              type="button"
+              onClick={logout}
+              className="p-1.5 rounded-full bg-white text-[#49333A]/70 border border-[#49333A]/15 hover:border-[#FCA5A5] hover:text-[#DC2626] hover:bg-[#FEE2E2] cursor-pointer transition-all shadow-2xs"
+              title="Lock app for Chotu only 🔒"
+            >
+              <Lock className="w-3.5 h-3.5" />
+            </button>
+          )}
 
           {chosenVibe && !isHome && !isMemories && (
             <span className="text-[11px] font-bold bg-[#FFF0B8] text-[#92400E] px-2 py-1 rounded-full border border-[#FDE68A] hidden sm:inline-flex items-center gap-1 shadow-2xs">

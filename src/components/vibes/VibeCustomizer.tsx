@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Heart, Check, Sparkles, Navigation, UtensilsCrossed, Image as ImageIcon, Users } from 'lucide-react';
+import { ExternalLink, Heart, Check, Sparkles, Navigation, UtensilsCrossed, Image as ImageIcon, Users, Maximize2 } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
 import type { DateVibeOption, VehicleChoice, ChillAudienceChoice, PujaCompanionChoice, PitstopChoice } from '../../types';
 import {
@@ -15,6 +15,7 @@ import {
   DoodleDurgaPuja,
 } from '../common/CuteDoodles';
 import { WashiTape } from '../common/WashiTape';
+import { ImageLightboxModal } from '../common/ImageLightboxModal';
 
 const VIBE_MEMORY_MAP: Record<string, { doodle: string; photo: string; caption: string }> = {
   'durga-puja': {
@@ -100,6 +101,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
   } = useDatePlanner();
 
   const [showRealPhoto, setShowRealPhoto] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string; caption: string } | null>(null);
 
   const getMapsUrl = (query: string) =>
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
@@ -109,6 +111,8 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
     photo: '/photos/sonu_chotu_cozy.jpg',
     caption: 'Every second with Chotu is my favorite memory',
   };
+
+  const activeMemorySrc = showRealPhoto ? memory.photo : memory.doodle;
 
   return (
     <div className="space-y-6">
@@ -126,16 +130,40 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
         </p>
       </div>
 
-      {/* Contextual Polaroid Memory for this Vibe */}
-      <div className="scrapbook-card p-3.5 bg-white border-2 border-[#49333A]/10 flex items-center gap-3.5 shadow-sm">
-        <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#49333A]/15 shrink-0 bg-[#FFF8F0] shadow-2xs relative">
+      {/* Contextual Polaroid Memory for this Vibe (Uncropped Instagram view with Ambient Background) */}
+      <div className="scrapbook-card p-3.5 bg-white border-2 border-[#49333A]/10 flex flex-col sm:flex-row items-center gap-3.5 shadow-sm">
+        <div
+          onClick={() =>
+            setLightboxImage({
+              url: activeMemorySrc,
+              title: `${vibe.title} • Jamshedpur Memory`,
+              caption: memory.caption,
+            })
+          }
+          className="relative w-full sm:w-28 h-28 rounded-2xl overflow-hidden border border-[#49333A]/15 shrink-0 bg-neutral-900 shadow-2xs cursor-pointer flex items-center justify-center group"
+          title="Click to view full uncropped image"
+        >
+          {/* Ambient blurred backdrop so image fits without harsh crop */}
           <img
-            src={showRealPhoto ? memory.photo : memory.doodle}
-            alt="Our memory"
-            className="w-full h-full object-cover transition-opacity duration-200"
+            src={activeMemorySrc}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-110 pointer-events-none"
           />
+
+          {/* Full uncropped image */}
+          <img
+            src={activeMemorySrc}
+            alt="Our memory"
+            className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+
+          <div className="absolute top-1.5 right-1.5 z-20 p-1 rounded-full bg-black/55 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            <Maximize2 className="w-3 h-3" />
+          </div>
         </div>
-        <div className="min-w-0 flex-1">
+
+        <div className="min-w-0 flex-1 w-full">
           <div className="flex items-center justify-between gap-1 mb-1">
             <span className="font-handwritten text-xl font-bold text-[#49333A] leading-none">
               Our Memory
@@ -143,15 +171,19 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
             <button
               type="button"
               onClick={() => setShowRealPhoto(!showRealPhoto)}
-              className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5] hover:bg-[#FFB7C5]/30 cursor-pointer flex items-center gap-1 shrink-0"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5] hover:bg-[#FFB7C5]/30 cursor-pointer flex items-center gap-1 shrink-0"
               title="Toggle doodle / real memory photo"
             >
               <ImageIcon className="w-3 h-3" />
               <span>{showRealPhoto ? 'Doodle' : 'Photo'}</span>
             </button>
           </div>
-          <p className="text-[11px] text-[#49333A]/75 leading-snug italic">
+          <p className="text-xs text-[#49333A]/85 leading-snug italic mb-1.5">
             "{memory.caption}"
+          </p>
+          <p className="text-[10px] text-[#49333A]/60 flex items-center gap-1 font-medium">
+            <Heart className="w-2.5 h-2.5 text-[#E94F64] fill-[#E94F64]" />
+            <span>Tap photo for uncropped full view</span>
           </p>
         </div>
       </div>
@@ -573,6 +605,15 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
           </div>
         </section>
       )}
+
+      {/* Lightbox Modal for Uncropped Photo Zoom */}
+      <ImageLightboxModal
+        isOpen={!!lightboxImage}
+        onClose={() => setLightboxImage(null)}
+        photoUrl={lightboxImage?.url || ''}
+        title={lightboxImage?.title || ''}
+        caption={lightboxImage?.caption || ''}
+      />
     </div>
   );
 };

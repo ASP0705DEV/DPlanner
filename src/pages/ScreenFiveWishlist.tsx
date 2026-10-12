@@ -13,7 +13,8 @@ import {
   Image as ImageIcon,
   Clock,
   Heart,
-  BookOpen,
+  Camera,
+  Maximize2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useDatePlanner } from '../context/DatePlannerContext';
@@ -21,6 +22,7 @@ import { DATE_VIBES } from '../data/dateVibes';
 import { submitDateWishlist } from '../services/supabase';
 import { ROMANTIC_CONFIG } from '../config/romanticMessages';
 import { WashiTape } from '../components/common/WashiTape';
+import { ImageLightboxModal } from '../components/common/ImageLightboxModal';
 import {
   DoodleHeart,
   getVibeDoodleIcon,
@@ -47,6 +49,7 @@ export const ScreenFiveWishlist: React.FC = () => {
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [isOfflineMode, setIsOfflineMode] = useState(false);
   const [showRealPhoto, setShowRealPhoto] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; title: string; caption: string } | null>(null);
 
   const chosenVibe = DATE_VIBES.find((v) => v.id === selectedVibeId) || DATE_VIBES[0];
   const chosenSpot = chosenVibe.jamshedpurSpots?.find((s) => s.id === customization.selectedSpotId);
@@ -272,8 +275,8 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
               to="/memories"
               className="btn-pookie-secondary flex items-center justify-center gap-2 py-2 text-xs cursor-pointer text-center bg-white"
             >
-              <BookOpen className="w-3.5 h-3.5 text-[#E94F64]" />
-              <span>Read Our Love Life Magazine 📖</span>
+              <Camera className="w-3.5 h-3.5 text-[#E94F64]" />
+              <span>View Our Love Feed 📸</span>
             </Link>
           </div>
         </motion.div>
@@ -327,9 +330,46 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
           </p>
         </div>
 
-        {/* Mini Keepsake Photo in Postcard */}
+        {/* Mini Keepsake Photo in Postcard (Uncropped with Lightbox) */}
         <div className="mb-3.5 p-2 bg-[#FFF8F0] rounded-2xl border border-[#49333A]/10 flex items-center gap-3">
-          <div className="w-16 h-16 rounded-xl overflow-hidden border border-[#49333A]/15 shrink-0 bg-white shadow-xs">
+          <div
+            onClick={() => {
+              const src =
+                chosenVibe.id === 'durga-puja'
+                  ? showRealPhoto
+                    ? '/photos/chotu_saree.jpg'
+                    : '/doodles/doodle_durga_puja_couple.jpg'
+                  : showRealPhoto
+                  ? '/photos/sonu_chotu_sunflower.jpg'
+                  : '/doodles/doodle_sunflower_date.jpg';
+              setLightboxImage({
+                url: src,
+                title: chosenVibe.id === 'durga-puja' ? 'Kasidih Durga Puja Pandal' : 'Sonu & Chotu Keepsake',
+                caption:
+                  chosenVibe.id === 'durga-puja'
+                    ? 'Dressed up in festive wear and celebrating Puja together.'
+                    : 'Every day with you is my favorite memory in Jamshedpur 💕',
+              });
+            }}
+            className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#49333A]/15 shrink-0 bg-neutral-900 shadow-xs cursor-pointer flex items-center justify-center group"
+            title="Click to view full uncropped image"
+          >
+            {/* Ambient blurred backdrop so image fits perfectly without cropping */}
+            <img
+              src={
+                chosenVibe.id === 'durga-puja'
+                  ? showRealPhoto
+                    ? '/photos/chotu_saree.jpg'
+                    : '/doodles/doodle_durga_puja_couple.jpg'
+                  : showRealPhoto
+                  ? '/photos/sonu_chotu_sunflower.jpg'
+                  : '/doodles/doodle_sunflower_date.jpg'
+              }
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-110 pointer-events-none"
+            />
+            {/* Full uncropped image */}
             <img
               src={
                 chosenVibe.id === 'durga-puja'
@@ -341,9 +381,13 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
                   : '/doodles/doodle_sunflower_date.jpg'
               }
               alt="Sonu & Chotu"
-              className="w-full h-full object-cover"
+              className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
             />
+            <div className="absolute top-1 right-1 z-20 p-1 rounded-full bg-black/55 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+              <Maximize2 className="w-2.5 h-2.5" />
+            </div>
           </div>
+
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-1 mb-0.5">
               <span className="font-handwritten text-lg font-bold text-[#49333A]">
@@ -352,17 +396,21 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
               <button
                 type="button"
                 onClick={() => setShowRealPhoto(!showRealPhoto)}
-                className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5] hover:bg-[#FFE0E6] cursor-pointer flex items-center gap-0.5"
+                className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5] hover:bg-[#FFE0E6] cursor-pointer flex items-center gap-0.5 shadow-2xs"
               >
                 <ImageIcon className="w-2.5 h-2.5" />
                 <span>{showRealPhoto ? 'Doodle' : 'Photo'}</span>
               </button>
             </div>
-            <p className="text-[10px] text-[#49333A]/70 leading-snug">
+            <p className="text-[10px] text-[#49333A]/70 leading-snug mb-1">
               {chosenVibe.id === 'durga-puja'
                 ? 'Dressed up in festive wear and celebrating Puja together.'
                 : 'Every day with you is my favorite memory in Jamshedpur.'}
             </p>
+            <span className="text-[9px] font-semibold text-[#E94F64] flex items-center gap-0.5">
+              <Heart className="w-2 h-2 fill-[#E94F64]" />
+              <span>Tap photo to zoom in full</span>
+            </span>
           </div>
         </div>
 
@@ -517,6 +565,15 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
           <span>Back to Change Details</span>
         </Link>
       </div>
+
+      {/* Lightbox Modal for Uncropped Photo Zoom */}
+      <ImageLightboxModal
+        isOpen={!!lightboxImage}
+        onClose={() => setLightboxImage(null)}
+        photoUrl={lightboxImage?.url || ''}
+        title={lightboxImage?.title || ''}
+        caption={lightboxImage?.caption || ''}
+      />
     </MobileContainer>
   );
 };
