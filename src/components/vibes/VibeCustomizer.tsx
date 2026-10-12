@@ -14,7 +14,6 @@ import {
   DoodleMapPin,
   DoodleDurgaPuja,
 } from '../common/CuteDoodles';
-import { WashiTape } from '../common/WashiTape';
 import { ImageLightboxModal } from '../common/ImageLightboxModal';
 
 const VIBE_MEMORY_MAP: Record<string, { doodle: string; photo: string; caption: string }> = {
@@ -117,21 +116,20 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
   return (
     <div className="space-y-6">
       {/* 1. Love Slogan Banner with Doodle Art */}
-      <div className="relative p-5 bg-[#FFE0E6]/40 rounded-3xl border-2 border-dashed border-[#FFB7C5] text-center overflow-hidden">
-        <WashiTape color="pink" rotate="-rotate-1" />
-        <div className="w-14 h-14 mx-auto mb-2 rounded-2xl bg-white border border-[#49333A]/10 shadow-xs flex items-center justify-center">
-          {getVibeDoodleIcon(vibe.id, 'w-9 h-9')}
+      <div className="relative p-5 glass-panel bg-gradient-to-r from-[#FFF0F5]/90 via-white/85 to-[#FFE0E6]/90 border border-white/95 text-center overflow-hidden shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
+        <div className="w-14 h-14 mx-auto mb-2 rounded-2xl bg-white border border-[#FFB7C5]/40 shadow-xs flex items-center justify-center">
+          {getVibeDoodleIcon(vibe.id, 'w-8 h-8')}
         </div>
-        <p className="font-handwritten text-2xl font-bold text-[#E94F64] leading-tight">
+        <p className="font-display text-xl sm:text-2xl font-black text-[#E94F64] leading-tight tracking-tight">
           {vibe.loveSlogan}
         </p>
-        <p className="text-xs text-[#49333A]/80 mt-1.5 font-medium max-w-xs mx-auto">
+        <p className="text-xs sm:text-sm text-[#3D2730]/75 mt-1.5 font-medium max-w-sm mx-auto">
           {vibe.romanticNote}
         </p>
       </div>
 
       {/* Contextual Polaroid Memory for this Vibe (Uncropped Instagram view with Ambient Background) */}
-      <div className="scrapbook-card p-3.5 bg-white border-2 border-[#49333A]/10 flex flex-col sm:flex-row items-center gap-3.5 shadow-sm">
+      <div className="glass-panel p-4 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)] flex flex-col sm:flex-row items-center gap-4">
         <div
           onClick={() =>
             setLightboxImage({
@@ -140,7 +138,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
               caption: memory.caption,
             })
           }
-          className="relative w-full sm:w-28 h-28 rounded-2xl overflow-hidden border border-[#49333A]/15 shrink-0 bg-neutral-900 shadow-2xs cursor-pointer flex items-center justify-center group"
+          className="relative w-full sm:w-28 h-28 rounded-2xl overflow-hidden border border-white/80 shrink-0 bg-neutral-900 shadow-sm cursor-pointer flex items-center justify-center group"
           title="Click to view full uncropped image"
         >
           {/* Ambient blurred backdrop so image fits without harsh crop */}
@@ -163,25 +161,25 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
           </div>
         </div>
 
-        <div className="min-w-0 flex-1 w-full">
-          <div className="flex items-center justify-between gap-1 mb-1">
-            <span className="font-handwritten text-xl font-bold text-[#49333A] leading-none">
-              Our Memory
+        <div className="min-w-0 flex-1 w-full text-center sm:text-left">
+          <div className="flex items-center justify-between gap-1 mb-1.5">
+            <span className="font-display text-base font-bold text-[#3D2730] leading-none">
+              Special Memory
             </span>
             <button
               type="button"
               onClick={() => setShowRealPhoto(!showRealPhoto)}
-              className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5] hover:bg-[#FFB7C5]/30 cursor-pointer flex items-center gap-1 shrink-0"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/60 hover:bg-[#FFB7C5]/30 cursor-pointer flex items-center gap-1 shrink-0 shadow-2xs transition-colors"
               title="Toggle doodle / real memory photo"
             >
               <ImageIcon className="w-3 h-3" />
               <span>{showRealPhoto ? 'Doodle' : 'Photo'}</span>
             </button>
           </div>
-          <p className="text-xs text-[#49333A]/85 leading-snug italic mb-1.5">
+          <p className="text-xs text-[#3D2730]/85 leading-snug italic mb-2 font-medium">
             "{memory.caption}"
           </p>
-          <p className="text-[10px] text-[#49333A]/60 flex items-center gap-1 font-medium">
+          <p className="text-[10px] text-[#3D2730]/60 flex items-center justify-center sm:justify-start gap-1 font-semibold">
             <Heart className="w-2.5 h-2.5 text-[#E94F64] fill-[#E94F64]" />
             <span>Tap photo for uncropped full view</span>
           </p>
@@ -190,18 +188,18 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
 
       {/* 2. SPECIFIC: Road Ride Vehicle Choice */}
       {vibe.id === 'road-ride' && (
-        <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+        <section className="glass-panel p-4 sm:p-6 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
           <div className="flex items-center gap-2 text-[#E94F64] mb-1">
             <Navigation className="w-4 h-4" />
-            <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+            <h4 className="font-display text-lg sm:text-xl font-black text-[#3D2730]">
               Choose Our Ride
             </h4>
           </div>
-          <p className="text-xs text-[#49333A]/70 mb-3.5">
+          <p className="text-xs text-[#3D2730]/70 mb-4 font-medium">
             What vehicle are Sonu and Chotu taking on the road today?
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               {
                 id: 'bike' as VehicleChoice,
@@ -231,24 +229,24 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                   key={v.id}
                   type="button"
                   onClick={() => setVehicleChoice(v.id)}
-                  className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between hover:scale-102 ${
                     isSelected
-                      ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
-                      : 'bg-white border-[#49333A]/15 hover:border-[#FFB7C5]'
+                      ? 'bg-gradient-to-br from-[#FFE0E6] to-[#FFF0F5] border-[#E94F64] shadow-[0_8px_20px_-3px_rgba(233,79,100,0.25)] ring-1 ring-[#FFB7C5]'
+                      : 'bg-white/90 border-[#3D2730]/10 hover:border-[#FFB7C5] hover:bg-white shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-1 mb-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] border border-[#49333A]/10 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
                         {v.icon}
                       </div>
-                      <span className="font-bold text-xs text-[#49333A]">{v.label}</span>
+                      <span className="font-bold text-xs text-[#3D2730]">{v.label}</span>
                     </div>
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shadow-2xs">
                       {v.tag}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#49333A]/80 leading-snug">{v.desc}</p>
+                  <p className="text-[11px] text-[#3D2730]/75 leading-snug font-medium">{v.desc}</p>
                 </button>
               );
             })}
@@ -258,14 +256,14 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
 
       {/* 3. SPECIFIC: Chill Session Audience Choice */}
       {vibe.id === 'chill-session' && (
-        <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+        <section className="glass-panel p-4 sm:p-6 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
           <div className="flex items-center gap-2 text-[#E94F64] mb-1">
             <Sparkles className="w-4 h-4" />
-            <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+            <h4 className="font-display text-lg sm:text-xl font-black text-[#3D2730]">
               Who are we chilling with?
             </h4>
           </div>
-          <p className="text-xs text-[#49333A]/70 mb-3.5">
+          <p className="text-xs text-[#3D2730]/70 mb-4 font-medium">
             Choose our circle for tonight's session:
           </p>
 
@@ -292,24 +290,24 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                   key={aud.id}
                   type="button"
                   onClick={() => setChillAudience(aud.id)}
-                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between hover:scale-102 ${
                     isSelected
-                      ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
-                      : 'bg-white border-[#49333A]/15 hover:border-[#FFB7C5]'
+                      ? 'bg-gradient-to-br from-[#FFE0E6] to-[#FFF0F5] border-[#E94F64] shadow-[0_8px_20px_-3px_rgba(233,79,100,0.25)] ring-1 ring-[#FFB7C5]'
+                      : 'bg-white/90 border-[#3D2730]/10 hover:border-[#FFB7C5] hover:bg-white shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-1 mb-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] border border-[#49333A]/10 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
                         {aud.icon}
                       </div>
-                      <span className="font-bold text-sm text-[#49333A]">{aud.title}</span>
+                      <span className="font-bold text-xs text-[#3D2730]">{aud.title}</span>
                     </div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shadow-2xs">
                       {aud.tag}
                     </span>
                   </div>
-                  <p className="text-xs text-[#49333A]/80 leading-snug">{aud.desc}</p>
+                  <p className="text-[11px] text-[#3D2730]/75 leading-snug font-medium">{aud.desc}</p>
                 </button>
               );
             })}
@@ -319,18 +317,18 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
 
       {/* SPECIFIC: Durga Puja Companion Choice (Just Us, Siblings, or Family) */}
       {vibe.id === 'durga-puja' && (
-        <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+        <section className="glass-panel p-4 sm:p-6 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
           <div className="flex items-center gap-2 text-[#E94F64] mb-1">
             <DoodleDurgaPuja className="w-5 h-5" />
-            <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+            <h4 className="font-display text-lg sm:text-xl font-black text-[#3D2730]">
               Who is Pandal Hopping with us?
             </h4>
           </div>
-          <p className="text-xs text-[#49333A]/70 mb-3.5">
+          <p className="text-xs text-[#3D2730]/70 mb-4 font-medium">
             Choose our pandal hopping gang for this festive season:
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               {
                 id: 'just-us' as PujaCompanionChoice,
@@ -360,24 +358,24 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                   key={comp.id}
                   type="button"
                   onClick={() => setPujaCompanion(comp.id)}
-                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between hover:scale-102 ${
                     isSelected
-                      ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
-                      : 'bg-white border-[#49333A]/15 hover:border-[#FFB7C5]'
+                      ? 'bg-gradient-to-br from-[#FFE0E6] to-[#FFF0F5] border-[#E94F64] shadow-[0_8px_20px_-3px_rgba(233,79,100,0.25)] ring-1 ring-[#FFB7C5]'
+                      : 'bg-white/90 border-[#3D2730]/10 hover:border-[#FFB7C5] hover:bg-white shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-1 mb-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] border border-[#49333A]/10 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
                         {comp.icon}
                       </div>
-                      <span className="font-bold text-xs text-[#49333A]">{comp.title}</span>
+                      <span className="font-bold text-xs text-[#3D2730]">{comp.title}</span>
                     </div>
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5] shrink-0">
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shrink-0 shadow-2xs">
                       {comp.tag}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#49333A]/80 leading-snug">{comp.desc}</p>
+                  <p className="text-[11px] text-[#3D2730]/75 leading-snug font-medium">{comp.desc}</p>
                 </button>
               );
             })}
@@ -387,47 +385,47 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
 
       {/* 4. Sub-Choices List with Doodle Icons (for vibes that don't already have custom picker) */}
       {vibe.id !== 'road-ride' && vibe.subChoices && vibe.subChoices.length > 0 && (
-        <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+        <section className="glass-panel p-4 sm:p-6 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
           <div className="flex items-center gap-2 text-[#E94F64] mb-1">
             <Heart className="w-4 h-4 fill-[#E94F64]" />
-            <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+            <h4 className="font-display text-lg sm:text-xl font-black text-[#3D2730]">
               {vibe.subChoiceTitle || 'Choose Details:'}
             </h4>
           </div>
-          <p className="text-xs text-[#49333A]/70 mb-3.5">
+          <p className="text-xs text-[#3D2730]/70 mb-4 font-medium">
             {vibe.subChoiceSubtitle || (vibe.allowMultipleSubChoices ? 'Pick everything you feel like:' : 'Pick your favorite:')}
           </p>
 
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {vibe.subChoices.map((choice) => {
               const isSelected = customization.selectedSubChoiceIds.includes(choice.id);
               return (
                 <div
                   key={choice.id}
                   onClick={() => toggleSubChoice(choice.id, vibe.allowMultipleSubChoices)}
-                  className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                  className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 hover:scale-101 ${
                     isSelected
-                      ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
-                      : 'bg-[#FFF8F0]/60 border-[#49333A]/10 hover:border-[#FFB7C5]'
+                      ? 'bg-gradient-to-br from-[#FFE0E6] to-[#FFF0F5] border-[#E94F64] shadow-[0_6px_16px_-3px_rgba(233,79,100,0.2)] ring-1 ring-[#FFB7C5]'
+                      : 'bg-white/90 border-[#3D2730]/10 hover:border-[#FFB7C5] hover:bg-white shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-[#49333A]/10 flex items-center justify-center shrink-0 shadow-xs">
-                      {getSubChoiceDoodleIcon(choice.id, 'w-6 h-6')}
+                    <div className="w-9 h-9 rounded-xl bg-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
+                      {getSubChoiceDoodleIcon(choice.id, 'w-5 h-5')}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-bold text-xs text-[#49333A]">
+                        <span className="font-bold text-xs text-[#3D2730]">
                           {choice.label}
                         </span>
                         {choice.tag && (
-                          <span className="text-[10px] font-semibold bg-white text-[#E94F64] px-1.5 py-0.2 rounded-md border border-[#FFB7C5]/40">
+                          <span className="text-[10px] font-semibold bg-white text-[#E94F64] px-1.5 py-0.2 rounded-md border border-[#FFB7C5]/40 shadow-2xs">
                             {choice.tag}
                           </span>
                         )}
                       </div>
                       {choice.description && (
-                        <p className="text-[11px] text-[#49333A]/75 mt-0.5 leading-snug">
+                        <p className="text-[11px] text-[#3D2730]/75 mt-0.5 leading-snug font-medium line-clamp-2">
                           {choice.description}
                         </p>
                       )}
@@ -435,10 +433,10 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                   </div>
 
                   <div
-                    className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 border ${
+                    className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 border transition-all ${
                       isSelected
-                        ? 'bg-[#E94F64] text-white border-[#E94F64]'
-                        : 'bg-white text-transparent border-[#49333A]/20'
+                        ? 'bg-[#E94F64] text-white border-[#E94F64] shadow-2xs'
+                        : 'bg-white text-transparent border-[#3D2730]/20'
                     }`}
                   >
                     <Check className="w-3 h-3 stroke-[3]" />
@@ -451,18 +449,18 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
       )}
 
       {/* 5. USER REQUESTED: Pitstop for Food, Desserts or Drinks */}
-      <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+      <section className="glass-panel p-4 sm:p-6 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
         <div className="flex items-center gap-2 text-[#E94F64] mb-1">
           <UtensilsCrossed className="w-4 h-4" />
-          <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+          <h4 className="font-display text-lg sm:text-xl font-black text-[#3D2730]">
             Pitstop: Food, Desserts or Drinks?
           </h4>
         </div>
-        <p className="text-xs text-[#49333A]/70 mb-3.5">
+        <p className="text-xs text-[#3D2730]/70 mb-4 font-medium">
           Where should Sonu stop to treat Chotu for a delicious bite or refreshment?
         </p>
 
-        <div className="grid grid-cols-1 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {[
             {
               id: 'chai-maggi' as PitstopChoice,
@@ -519,26 +517,26 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                 key={p.id}
                 type="button"
                 onClick={() => setPitstopChoice(p.id)}
-                className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+                className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between hover:scale-101 ${
                   isSelected
-                    ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
-                    : 'bg-white border-[#49333A]/10 hover:border-[#FFB7C5]'
+                    ? 'bg-gradient-to-br from-[#FFE0E6] to-[#FFF0F5] border-[#E94F64] shadow-[0_6px_18px_-3px_rgba(233,79,100,0.2)] ring-1 ring-[#FFB7C5]'
+                    : 'bg-white/90 border-[#3D2730]/10 hover:border-[#FFB7C5] hover:bg-white shadow-2xs'
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] border border-[#49333A]/10 flex items-center justify-center shrink-0">
-                      {getPitstopDoodleIcon(p.id, 'w-5 h-5')}
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-8 h-8 rounded-xl bg-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
+                      {getPitstopDoodleIcon(p.id, 'w-4 h-4')}
                     </div>
-                    <span className="font-bold text-xs text-[#49333A] leading-tight">
+                    <span className="font-bold text-xs text-[#3D2730] leading-tight">
                       {p.label}
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FFF8F0] text-[#E94F64] border border-[#FFB7C5] shrink-0">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5]/50 shrink-0 shadow-2xs">
                     {p.tag}
                   </span>
                 </div>
-                <p className="text-[11px] text-[#49333A]/75 leading-snug pl-10.5">
+                <p className="text-[11px] text-[#3D2730]/75 leading-snug font-medium pl-10">
                   {p.desc}
                 </p>
               </button>
@@ -549,36 +547,36 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
 
       {/* 6. Jamshedpur Spots Section with Doodle Map Pin */}
       {vibe.jamshedpurSpots && vibe.jamshedpurSpots.length > 0 && (
-        <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+        <section className="glass-panel p-4 sm:p-6 bg-white/90 border border-white/95 shadow-[0_10px_30px_-5px_rgba(233,79,100,0.08)]">
           <div className="flex items-center gap-2 text-[#E94F64] mb-1">
             <DoodleMapPin className="w-5 h-5" />
-            <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+            <h4 className="font-display text-lg sm:text-xl font-black text-[#3D2730]">
               {vibe.jamshedpurSpotsTitle || 'Where in Jamshedpur?'}
             </h4>
           </div>
-          <p className="text-xs text-[#49333A]/70 mb-3.5">
+          <p className="text-xs text-[#3D2730]/70 mb-4 font-medium">
             Tap a destination to select where Sonu and Chotu will head:
           </p>
 
-          <div className="space-y-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {vibe.jamshedpurSpots.map((spot) => {
               const isSelected = customization.selectedSpotId === spot.id;
               return (
                 <div
                   key={spot.id}
                   onClick={() => setSelectedSpotId(spot.id)}
-                  className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`p-3.5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between hover:scale-101 ${
                     isSelected
-                      ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
-                      : 'bg-white border-[#49333A]/10 hover:border-[#FFB7C5]'
+                      ? 'bg-gradient-to-br from-[#FFE0E6] to-[#FFF0F5] border-[#E94F64] shadow-[0_6px_18px_-3px_rgba(233,79,100,0.2)] ring-1 ring-[#FFB7C5]'
+                      : 'bg-white/90 border-[#3D2730]/10 hover:border-[#FFB7C5] hover:bg-white shadow-2xs'
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-2 mb-1">
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
                     <div className="min-w-0">
-                      <h5 className="font-bold text-xs text-[#49333A] leading-tight">
+                      <h5 className="font-bold text-xs text-[#3D2730] leading-tight">
                         {spot.name}
                       </h5>
-                      <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#E94F64] bg-white px-2 py-0.5 rounded-full border border-[#FFB7C5] mt-1">
+                      <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#E94F64] bg-white px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs mt-1">
                         <DoodleMapPin className="w-3 h-3" />
                         <span>{spot.locality}</span>
                       </div>
@@ -589,14 +587,14 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-[11px] font-bold text-[#E94F64] hover:underline flex items-center gap-1 shrink-0 bg-[#FFF8F0] px-2.5 py-1 rounded-xl border border-[#FFB7C5]/40"
+                      className="text-[11px] font-bold text-[#E94F64] hover:bg-[#FFE0E6] flex items-center gap-1 shrink-0 bg-white px-2.5 py-1 rounded-xl border border-[#FFB7C5]/60 shadow-2xs transition-colors"
                     >
                       <span>Map</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
 
-                  <p className="text-[11px] text-[#49333A]/75 mt-1.5 leading-snug">
+                  <p className="text-[11px] text-[#3D2730]/75 mt-1 leading-snug font-medium">
                     {spot.description}
                   </p>
                 </div>

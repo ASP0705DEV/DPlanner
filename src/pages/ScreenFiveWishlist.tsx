@@ -290,25 +290,25 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
       )}
 
       {/* THE ROMANTIC POSTCARD */}
-      <div className="relative scrapbook-card p-5 bg-white border-2 border-[#49333A]/20 shadow-xl rounded-3xl overflow-hidden mb-6">
+      <div className="relative glass-panel bg-white/95 p-6 sm:p-7 border border-white/95 shadow-[0_20px_50px_-10px_rgba(233,79,100,0.15)] ring-1 ring-[#FFB7C5]/30 rounded-[2rem] overflow-hidden mb-8">
         <WashiTape color="pink" rotate="-rotate-1" />
 
         {/* Heading Row with Vintage Stamp (Clean Flow Layout - No Absolute Collision) */}
         <div className="flex items-start justify-between gap-3 mb-4">
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#E94F64] bg-[#FFE0E6] px-2.5 py-0.5 rounded-full border border-[#FFB7C5]/40 inline-flex items-center gap-1 mb-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#E94F64] bg-[#FFE0E6] px-2.5 py-0.5 rounded-full border border-[#FFB7C5]/40 inline-flex items-center gap-1 mb-1.5 shadow-2xs">
               <Heart className="w-3 h-3 fill-[#E94F64]" />
               <span>For Chotu</span>
             </span>
-            <div className="flex items-center gap-2.5 mt-0.5">
-              <div className="w-10 h-10 rounded-xl bg-[#FFF8F0] border border-[#49333A]/10 flex items-center justify-center shrink-0">
-                {getVibeDoodleIcon(chosenVibe.id, 'w-6 h-6')}
+            <div className="flex items-center gap-3 mt-1">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFE0E6] to-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
+                {getVibeDoodleIcon(chosenVibe.id, 'w-7 h-7')}
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="font-handwritten text-3xl font-bold text-[#49333A] leading-tight">
+                <h2 className="font-display text-2xl sm:text-3xl font-black text-[#3D2730] leading-tight tracking-tight">
                   {chosenVibe.title}
                 </h2>
-                <p className="text-xs font-semibold text-[#E94F64]">
+                <p className="text-xs font-bold text-[#E94F64] mt-0.5">
                   {chosenVibe.hindiTitle}
                 </p>
               </div>

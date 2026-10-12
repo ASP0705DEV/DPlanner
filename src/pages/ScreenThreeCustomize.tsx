@@ -24,11 +24,11 @@ export const ScreenThreeCustomize: React.FC = () => {
           <span>Step 2: Customizing Your Vibe</span>
         </div>
 
-        <h1 className="font-handwritten text-4xl font-bold text-[#49333A] mb-1 leading-tight">
+        <h1 className="font-display text-3xl sm:text-4xl font-black text-[#3D2730] mb-1.5 leading-tight tracking-tight">
           {chosenVibe.title}
         </h1>
 
-        <p className="text-xs text-[#49333A]/80 font-medium">
+        <p className="text-xs sm:text-sm text-[#3D2730]/75 font-medium">
           Let's tailor all the cute details and Jamshedpur spots!
         </p>
 

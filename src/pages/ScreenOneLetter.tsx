@@ -24,15 +24,15 @@ export const ScreenOneLetter: React.FC = () => {
   };
 
   return (
-    <MobileContainer className="px-5 py-7 flex flex-col justify-between items-center text-center">
-      <div className="w-full my-auto z-10">
+    <MobileContainer className="px-4 sm:px-8 py-8 sm:py-10 flex flex-col justify-between items-center text-center">
+      <div className="w-full my-auto z-10 max-w-xl mx-auto">
         {/* Intro Tag */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5] text-xs font-bold uppercase tracking-wider mb-2.5 shadow-xs"
+          className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-gradient-to-r from-[#FFE0E6] via-[#FFF0F5] to-[#FFE0E6] text-[#E94F64] border border-[#FFB7C5]/60 text-xs font-extrabold uppercase tracking-wider mb-3 shadow-2xs"
         >
-          <Sparkles className="w-3.5 h-3.5 animate-spin" />
+          <Sparkles className="w-3.5 h-3.5 text-[#E94F64] animate-spin" />
           <span>{ROMANTIC_CONFIG.heroSubtitle}</span>
         </motion.div>
 
@@ -41,7 +41,7 @@ export const ScreenOneLetter: React.FC = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="font-handwritten text-5xl font-bold text-[#49333A] tracking-tight mb-2 leading-tight"
+          className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-[#3D2730] tracking-tight mb-2.5 leading-tight"
         >
           {ROMANTIC_CONFIG.heroGreeting}
         </motion.h1>
@@ -51,7 +51,7 @@ export const ScreenOneLetter: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-xs sm:text-sm text-[#49333A]/85 leading-relaxed max-w-xs mx-auto mb-5 font-medium"
+          className="text-xs sm:text-sm text-[#3D2730]/80 leading-relaxed max-w-md mx-auto mb-6 font-medium"
         >
           {ROMANTIC_CONFIG.heroDescription}
         </motion.p>
@@ -64,9 +64,9 @@ export const ScreenOneLetter: React.FC = () => {
           className="relative inline-block mb-6 group"
         >
           <WashiTape color="pink" rotate="-rotate-2" />
-          <div className="bg-white p-3 pb-4 rounded-2xl border-2 border-[#49333A]/15 shadow-xl max-w-[260px] mx-auto transform -rotate-1 hover:rotate-0 transition-transform">
+          <div className="bg-white/95 backdrop-blur-md p-3.5 pb-4 rounded-3xl border border-white/90 shadow-[0_20px_45px_-10px_rgba(233,79,100,0.2)] max-w-[280px] sm:max-w-[300px] mx-auto transform -rotate-1 hover:rotate-0 transition-all duration-300 ring-1 ring-[#FFB7C5]/30">
             <div
-              className="relative w-full h-[220px] overflow-hidden rounded-xl border border-[#49333A]/10 bg-neutral-900 cursor-pointer flex items-center justify-center"
+              className="relative w-full h-[230px] sm:h-[250px] overflow-hidden rounded-2xl border border-[#3D2730]/10 bg-neutral-900 cursor-pointer flex items-center justify-center"
               onClick={() =>
                 setLightboxImage({
                   url: activePhotoSrc,
@@ -92,8 +92,8 @@ export const ScreenOneLetter: React.FC = () => {
               />
 
               {/* Controls Overlay */}
-              <div className="absolute bottom-2 inset-x-2 z-20 flex items-center justify-between pointer-events-none">
-                <span className="px-2 py-0.5 bg-black/55 backdrop-blur-xs rounded-full text-[9px] font-bold text-white flex items-center gap-1 shadow-xs">
+              <div className="absolute bottom-2.5 inset-x-2.5 z-20 flex items-center justify-between pointer-events-none">
+                <span className="px-2.5 py-1 bg-black/60 backdrop-blur-xs rounded-full text-[9px] font-bold text-white flex items-center gap-1 shadow-xs">
                   <Maximize2 className="w-2.5 h-2.5" />
                   <span>Tap to Zoom</span>
                 </span>
@@ -104,7 +104,7 @@ export const ScreenOneLetter: React.FC = () => {
                     e.stopPropagation();
                     setShowOriginalPhoto(!showOriginalPhoto);
                   }}
-                  className="pointer-events-auto px-2 py-1 bg-white/95 backdrop-blur-xs rounded-full border border-[#49333A]/15 text-[10px] font-bold text-[#49333A] hover:bg-white flex items-center gap-1 shadow-xs cursor-pointer"
+                  className="pointer-events-auto px-2.5 py-1 bg-white/95 backdrop-blur-xs rounded-full border border-[#3D2730]/10 text-[10px] font-bold text-[#3D2730] hover:bg-white flex items-center gap-1 shadow-xs cursor-pointer hover:scale-103 transition-transform"
                   title="Tap to toggle doodle / real photo"
                 >
                   <ImageIcon className="w-2.5 h-2.5 text-[#E94F64]" />
@@ -113,9 +113,9 @@ export const ScreenOneLetter: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-2.5 flex items-center justify-center gap-1 text-[#E94F64]">
+            <div className="mt-3 flex items-center justify-center gap-1.5 text-[#E94F64]">
               <Heart className="w-3.5 h-3.5 fill-[#E94F64]" />
-              <p className="font-handwritten text-xl font-bold text-[#49333A] leading-none">
+              <p className="font-handwritten text-2xl font-bold text-[#3D2730] leading-none">
                 Sonu & Chotu
               </p>
               <Heart className="w-3.5 h-3.5 fill-[#E94F64]" />
@@ -137,13 +137,13 @@ export const ScreenOneLetter: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="mt-6 pt-4 border-t border-dashed border-[#49333A]/15 flex flex-col items-center gap-2"
+          className="mt-8 pt-5 border-t border-[#3D2730]/10 flex flex-col items-center gap-2.5"
         >
-          <div className="flex items-center gap-2 flex-wrap justify-center">
+          <div className="flex items-center gap-2.5 flex-wrap justify-center">
             <button
               type="button"
               onClick={() => navigate('/memories')}
-              className="inline-flex items-center gap-2 py-2 px-3.5 rounded-2xl bg-white border border-[#49333A]/15 text-xs font-bold text-[#49333A] hover:border-[#FFB7C5] hover:text-[#E94F64] shadow-xs cursor-pointer transition-all hover:scale-102"
+              className="inline-flex items-center gap-2 py-2.5 px-4 rounded-full bg-white/95 backdrop-blur-md border border-[#FFB7C5]/60 text-xs font-bold text-[#3D2730] hover:border-[#E94F64] hover:text-[#E94F64] hover:bg-white shadow-xs cursor-pointer transition-all hover:scale-103"
             >
               <Camera className="w-4 h-4 text-[#E94F64]" />
               <span>Our Love Feed 📸</span>
@@ -152,13 +152,13 @@ export const ScreenOneLetter: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowInstallModal(true)}
-              className="inline-flex items-center gap-1.5 py-2 px-3.5 rounded-2xl bg-white border border-[#49333A]/15 text-xs font-bold text-[#49333A] hover:border-[#FFB7C5] hover:text-[#E94F64] shadow-xs cursor-pointer transition-all hover:scale-102"
+              className="inline-flex items-center gap-1.5 py-2.5 px-4 rounded-full bg-white/95 backdrop-blur-md border border-[#FFB7C5]/60 text-xs font-bold text-[#3D2730] hover:border-[#E94F64] hover:text-[#E94F64] hover:bg-white shadow-xs cursor-pointer transition-all hover:scale-103"
             >
               <Download className="w-3.5 h-3.5 text-[#E94F64]" />
               <span>Download App 📲</span>
             </button>
           </div>
-          <p className="text-[10px] text-[#49333A]/60">
+          <p className="text-[11px] text-[#3D2730]/65 font-medium">
             Share our date moments on our Instagram feed or install on desktop/phone
           </p>
         </motion.div>

@@ -41,8 +41,8 @@ export const ScreenTwoVibe: React.FC = () => {
         </p>
       </div>
 
-      {/* Single-select Vibe Cards */}
-      <div className="space-y-3.5 mb-6">
+      {/* Single-select Vibe Cards in Responsive Modern Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         {DATE_VIBES.map((vibe) => {
           const isSelected = selectedVibeId === vibe.id;
           return (
@@ -65,7 +65,7 @@ export const ScreenTwoVibe: React.FC = () => {
         sweetNote="You pick the vibe, Sonu plans the magic"
       />
 
-      {/* FLOATING NEXT BUTTON AT THE END OF THE SCREEN WHEN ANY VIBE IS SELECTED */}
+      {/* FLOATING NEXT DOCK AT THE BOTTOM WHEN ANY VIBE IS SELECTED */}
       <AnimatePresence>
         {selectedVibeId && (
           <motion.div
@@ -75,18 +75,18 @@ export const ScreenTwoVibe: React.FC = () => {
             transition={{ type: 'spring', stiffness: 280, damping: 24 }}
             className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none"
           >
-            <div className="max-w-md mx-auto p-3 sm:p-4 pointer-events-auto">
-              <div className="bg-[#FFF8F0]/95 backdrop-blur-md rounded-2xl border-2 border-[#E94F64] p-3 shadow-2xl flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-[#49333A]/15 flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto p-3 sm:p-4 pointer-events-auto">
+              <div className="bg-white/90 backdrop-blur-2xl rounded-2xl sm:rounded-full border border-white/95 p-3 sm:px-5 shadow-[0_15px_40px_-8px_rgba(233,79,100,0.25)] flex items-center justify-between gap-3 ring-1 ring-[#FFB7C5]/40">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#FFE0E6] to-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
                     {getVibeDoodleIcon(chosenVibe.id, 'w-6 h-6')}
                   </div>
                   <div className="min-w-0">
-                    <span className="text-[10px] font-bold text-[#E94F64] uppercase tracking-wide flex items-center gap-1">
+                    <span className="text-[10px] font-extrabold text-[#E94F64] uppercase tracking-wider flex items-center gap-1">
                       <Heart className="w-2.5 h-2.5 fill-[#E94F64]" />
                       <span>Ready to Plan</span>
                     </span>
-                    <h4 className="font-handwritten text-xl font-bold text-[#49333A] leading-tight truncate">
+                    <h4 className="font-display text-base sm:text-lg font-bold text-[#3D2730] leading-tight truncate">
                       {chosenVibe.title}
                     </h4>
                   </div>
@@ -95,7 +95,7 @@ export const ScreenTwoVibe: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/customize')}
-                  className="btn-pookie flex items-center gap-2 py-2.5 px-4 text-xs font-bold shrink-0 shadow-md cursor-pointer hover:scale-102 active:scale-98 transition-transform"
+                  className="btn-pookie flex items-center gap-2 py-2.5 px-5 text-xs font-bold shrink-0 shadow-md cursor-pointer hover:scale-103 active:scale-97 transition-transform"
                 >
                   <span>Next: Details</span>
                   <ArrowRight className="w-4 h-4" />

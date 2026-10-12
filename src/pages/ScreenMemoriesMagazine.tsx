@@ -96,10 +96,10 @@ export const ScreenMemoriesMagazine: React.FC = () => {
   return (
     <MobileContainer className="px-3 sm:px-4 py-4 pb-28">
       {/* 1. INSTAGRAM PROFILE HEADER */}
-      <div className="bg-white rounded-3xl border border-[#49333A]/15 p-4 sm:p-5 shadow-sm mb-4">
-        <div className="flex items-start justify-between gap-3 mb-3">
-          {/* Avatar with Story Ring */}
-          <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] shrink-0">
+      <div className="glass-panel bg-white/90 backdrop-blur-2xl border border-white/95 p-5 sm:p-6 shadow-[0_15px_35px_-5px_rgba(233,79,100,0.08)] mb-5">
+        <div className="flex items-start justify-between gap-4 mb-4">
+          {/* Avatar with Gradient Story Ring */}
+          <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] shrink-0 shadow-sm">
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white p-1 overflow-hidden">
               <img
                 src="/photos/sonu_chotu_tilak_night.jpg"
@@ -110,38 +110,38 @@ export const ScreenMemoriesMagazine: React.FC = () => {
           </div>
 
           {/* Stats Bar */}
-          <div className="flex-1 flex items-center justify-around text-center pt-2">
+          <div className="flex-1 flex items-center justify-around text-center pt-2 sm:pt-3">
             <div>
-              <span className="block font-black text-sm sm:text-base text-[#49333A]">
+              <span className="block font-display font-extrabold text-base sm:text-lg text-[#3D2730]">
                 {posts.length}
               </span>
-              <span className="text-[10px] text-[#49333A]/60 font-semibold uppercase">Posts</span>
+              <span className="text-[10px] text-[#3D2730]/60 font-bold uppercase tracking-wider">Posts</span>
             </div>
             <div>
-              <span className="block font-black text-sm sm:text-base text-[#E94F64]">
+              <span className="block font-display font-extrabold text-base sm:text-lg text-[#E94F64]">
                 15+
               </span>
-              <span className="text-[10px] text-[#49333A]/60 font-semibold uppercase">Vibes</span>
+              <span className="text-[10px] text-[#3D2730]/60 font-bold uppercase tracking-wider">Vibes</span>
             </div>
             <div>
-              <span className="block font-black text-sm sm:text-base text-[#E94F64]">
+              <span className="block font-display font-extrabold text-base sm:text-lg text-[#E94F64]">
                 Forever
               </span>
-              <span className="text-[10px] text-[#49333A]/60 font-semibold uppercase">Love</span>
+              <span className="text-[10px] text-[#3D2730]/60 font-bold uppercase tracking-wider">Love</span>
             </div>
           </div>
         </div>
 
         {/* Bio */}
-        <div className="mb-3.5 text-xs text-[#49333A]">
-          <div className="flex items-center gap-1 font-bold text-sm text-[#49333A] mb-0.5">
-            <span>chotu_and_sonu</span>
+        <div className="mb-4 text-xs text-[#3D2730]">
+          <div className="flex items-center gap-1.5 font-bold text-sm text-[#3D2730] mb-0.5">
+            <span className="font-display font-bold">chotu_and_sonu</span>
             <CheckCircle2 className="w-4 h-4 text-[#E94F64] fill-[#FFE0E6]" />
           </div>
-          <p className="font-semibold text-[11px] text-[#E94F64] mb-1">
+          <p className="font-bold text-[11px] text-[#E94F64] mb-1">
             Sonu & Chotu • Our Private Love Feed 💍
           </p>
-          <p className="text-[11px] text-[#49333A]/85 leading-snug">
+          <p className="text-[11px] text-[#3D2730]/80 leading-relaxed font-medium">
             Marking our date moments, festive smiles, and quiet hugs across Jamshedpur. Locked & private for us only 💕
           </p>
         </div>
@@ -151,7 +151,7 @@ export const ScreenMemoriesMagazine: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsCreateModalOpen(true)}
-            className="flex-1 btn-pookie flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold cursor-pointer shadow-sm hover:scale-101"
+            className="flex-1 btn-pookie flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold cursor-pointer shadow-sm hover:scale-102 active:scale-98 transition-transform"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Add Memory Post 📸</span>
@@ -159,7 +159,7 @@ export const ScreenMemoriesMagazine: React.FC = () => {
 
           <Link
             to="/vibe"
-            className="px-3 py-2.5 rounded-2xl bg-[#FFF8F0] border border-[#FFB7C5] text-xs font-bold text-[#E94F64] hover:bg-[#FFE0E6] transition-colors"
+            className="px-3 py-2.5 rounded-2xl bg-white border border-[#FFB7C5] text-xs font-bold text-[#E94F64] hover:bg-[#FFE0E6]/50 transition-colors shadow-2xs hover:scale-102"
             title="Plan our next date"
           >
             <Sparkles className="w-4 h-4" />
@@ -168,7 +168,7 @@ export const ScreenMemoriesMagazine: React.FC = () => {
           <button
             type="button"
             onClick={logout}
-            className="p-2.5 rounded-2xl bg-[#FEE2E2] border border-[#FCA5A5] text-[#DC2626] text-xs font-bold hover:bg-[#FCA5A5]/30 cursor-pointer transition-colors"
+            className="p-2.5 rounded-2xl bg-[#FEE2E2] border border-[#FCA5A5] text-[#DC2626] text-xs font-bold hover:bg-[#FCA5A5]/30 cursor-pointer transition-colors shadow-2xs hover:scale-102"
             title="Lock our app"
           >
             <Lock className="w-4 h-4" />

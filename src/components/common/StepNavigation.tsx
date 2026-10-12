@@ -40,13 +40,13 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
   };
 
   return (
-    <div className="sticky bottom-0 z-30 bg-[#FFF8F0]/95 backdrop-blur-md border-t-2 border-dashed border-[#49333A]/15 py-2.5 px-4 shadow-lg transition-all">
-      <div className="max-w-md mx-auto">
+    <div className="sticky bottom-4 z-40 px-2 mt-8 pointer-events-none">
+      <div className="max-w-md mx-auto glass-panel p-3 bg-white/92 backdrop-blur-xl border border-white/95 shadow-[0_15px_35px_-5px_rgba(233,79,100,0.18)] pointer-events-auto rounded-3xl">
         {sweetNote && (
-          <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#49333A]/75 font-medium mb-2">
-            <Heart className="w-3 h-3 fill-[#E94F64] text-[#E94F64] shrink-0" />
+          <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#3D2730]/75 font-semibold mb-2">
+            <Heart className="w-3 h-3 fill-[#E94F64] text-[#E94F64] shrink-0 animate-pulse" />
             <span className="truncate">{sweetNote}</span>
-            <Heart className="w-3 h-3 fill-[#E94F64] text-[#E94F64] shrink-0" />
+            <Heart className="w-3 h-3 fill-[#E94F64] text-[#E94F64] shrink-0 animate-pulse" />
           </div>
         )}
 
@@ -56,9 +56,9 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
             <button
               type="button"
               onClick={handlePrev}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-2 border-[#49333A]/20 bg-white text-[#49333A] font-bold text-xs hover:bg-[#FFE0E6]/30 hover:border-[#FFB7C5] transition-all cursor-pointer shadow-xs active:scale-95 shrink-0"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-[#3D2730]/12 bg-white text-[#3D2730] font-bold text-xs hover:bg-[#FFE0E6]/40 hover:border-[#FFB7C5] transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="w-3.5 h-3.5 text-[#E94F64]" />
               <span>{prevLabel}</span>
             </button>
           ) : (
@@ -69,9 +69,9 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
           <button
             type="button"
             onClick={handleNext}
-            className="btn-pookie flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-bold cursor-pointer group shadow-md"
+            className="btn-pookie flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-bold cursor-pointer group shadow-[0_6px_20px_-3px_rgba(233,79,100,0.35)]"
           >
-            <span className="truncate">{nextLabel}</span>
+            <span className="truncate font-display tracking-wide">{nextLabel}</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
           </button>
         </div>

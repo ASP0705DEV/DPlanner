@@ -67,12 +67,12 @@ export const InstagramPostCard: React.FC<InstagramPostCardProps> = ({
   };
 
   return (
-    <article className="bg-white rounded-3xl border border-[#49333A]/15 shadow-md overflow-hidden transition-all hover:shadow-lg mb-6">
+    <article className="bg-white/95 backdrop-blur-md rounded-[2rem] border border-white/95 shadow-[0_15px_40px_-10px_rgba(233,79,100,0.12)] ring-1 ring-[#FFB7C5]/30 overflow-hidden transition-all duration-300 hover:shadow-[0_20px_50px_-8px_rgba(233,79,100,0.2)] mb-8">
       {/* 1. INSTAGRAM POST HEADER */}
-      <div className="p-3 sm:p-4 flex items-center justify-between border-b border-[#49333A]/10">
+      <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-[#3D2730]/5">
         <div className="flex items-center gap-2.5 min-w-0">
           {/* Gradient Story Avatar */}
-          <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] shrink-0">
+          <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] shrink-0 shadow-2xs">
             <div className="w-9 h-9 rounded-full bg-white p-0.5">
               <img
                 src="/photos/sonu_chotu_tilak_night.jpg"
@@ -84,12 +84,12 @@ export const InstagramPostCard: React.FC<InstagramPostCardProps> = ({
 
           <div className="min-w-0">
             <div className="flex items-center gap-1">
-              <span className="font-bold text-xs text-[#49333A] truncate">
+              <span className="font-display font-bold text-xs text-[#3D2730] truncate">
                 chotu_and_sonu
               </span>
               <CheckCircle2 className="w-3.5 h-3.5 text-[#E94F64] fill-[#FFE0E6] shrink-0" />
             </div>
-            <div className="flex items-center gap-1 text-[10px] text-[#49333A]/65 font-medium truncate">
+            <div className="flex items-center gap-1 text-[10px] text-[#3D2730]/65 font-medium truncate">
               <MapPin className="w-2.5 h-2.5 text-[#E94F64] shrink-0" />
               <span className="truncate">{memory.location || 'Jamshedpur, India'}</span>
             </div>
