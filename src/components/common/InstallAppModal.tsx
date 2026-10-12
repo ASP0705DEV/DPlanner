@@ -92,7 +92,7 @@ export const InstallAppModal: React.FC<{ isOpen: boolean; onClose: () => void }>
           </h3>
 
           <p className="text-xs text-[#49333A]/75 mb-4">
-            Install on your desktop or phone home screen so Chotu can open our Date Planner anytime like a real app!
+            Install on your desktop or phone home screen so Chotu can open our app anytime like a real app!
           </p>
 
           {isStandalone || isInstalled ? (
@@ -160,7 +160,7 @@ export const InstallAppModal: React.FC<{ isOpen: boolean; onClose: () => void }>
                 How to install on Chrome / Edge:
               </span>
               <p className="leading-snug">
-                Click the <strong>Install App icon (⊕)</strong> in the right side of your browser address bar, or open your browser menu (⋮) and choose <strong>"Install Date Planner"</strong>.
+                Click the <strong>Install App icon (⊕)</strong> in the right side of your browser address bar, or open your browser menu (⋮) and choose <strong>"Install App"</strong>.
               </p>
             </div>
           )}

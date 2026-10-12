@@ -62,7 +62,7 @@ export const InstagramPostCard: React.FC<InstagramPostCardProps> = ({
   };
 
   const handleWhatsAppShare = () => {
-    const text = `Look at our memory on Date Planner! 💕\n\n📸 ${memory.title} (${memory.location})\n"${memory.story}"\n\nLove from Chotu & Sonu! 💖`;
+    const text = `Look at our special memory! 💕\n\n📸 ${memory.title} (${memory.location})\n"${memory.story}"\n\nLove from Chotu & Sonu! 💖`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
 

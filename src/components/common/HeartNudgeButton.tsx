@@ -66,7 +66,7 @@ export const HeartNudgeButton: React.FC = () => {
     const count = Math.max(nudgeCount, 1);
     const romanticNote = customNote.trim() || getRomanceMessage(count);
 
-    const message = `Hey Sonu! 💌 Chotu just gave you ${count} Heart Nudges on Our Date Planner! 💖
+    const message = `Hey Sonu! 💌 Chotu just gave you ${count} Heart Nudges! 💖
 
 "${romanticNote}"
 

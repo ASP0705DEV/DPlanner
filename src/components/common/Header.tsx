@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-display text-sm sm:text-base font-bold text-[#3D2730] tracking-tight leading-none">
-                  Date Planner
+                  Sonu & Chotu
                 </span>
                 <span className="bg-[#FFE0E6] text-[#E94F64] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs">
                   For {ROMANTIC_CONFIG.girlfriendNickname} 💕

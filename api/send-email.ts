@@ -98,7 +98,7 @@ export default async function handler(req: any, res: any) {
           <tr>
             <td style="background: linear-gradient(135deg, #FFB7C5 0%, #E94F64 100%); padding: 24px 20px; text-align: center; color: #ffffff;">
               <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: -0.5px;">💌 Chotu Has Planned a Date!</h1>
-              <p style="margin: 6px 0 0 0; font-size: 13px; opacity: 0.95;">Our Little Date Planner Notification</p>
+              <p style="margin: 6px 0 0 0; font-size: 13px; opacity: 0.95;">Sonu & Chotu Notification</p>
             </td>
           </tr>
           
@@ -147,11 +147,11 @@ export default async function handler(req: any, res: any) {
     `;
 
     const info = await transporter.sendMail({
-      from: `"DATE PLANNER" <${user}>`,
+      from: `"Sonu & Chotu" <${user}>`,
       to: recipient,
       subject: `💌 Chotu planned a date: ${vibe_title || 'New Date'} (${preferred_timing || 'Upcoming'})`,
       html: htmlContent,
-      text: `Hey Sonu!\n\nChotu just submitted a date plan on Our Little Date Planner!\n\nVibe: ${vibe_title} (${hindi_title || ''})\nTiming: ${preferred_timing} ${preferred_date ? `(${preferred_date})` : ''}\nNote: ${special_note || 'None'}\n\nCheck your Date Planner and make this happen! 💕`,
+      text: `Hey Sonu!\n\nChotu just submitted a date plan on Sonu & Chotu!\n\nVibe: ${vibe_title} (${hindi_title || ''})\nTiming: ${preferred_timing} ${preferred_date ? `(${preferred_date})` : ''}\nNote: ${special_note || 'None'}\n\nMake this happen for your princess! 💕`,
     });
 
     console.log('Date notification email sent successfully:', info.messageId);

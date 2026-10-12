@@ -259,7 +259,7 @@ export const OwnerDashboard: React.FC = () => {
                 No wishlists found yet! 💌
               </h3>
               <p className="text-xs text-[#49333A]/70 max-w-sm mx-auto">
-                Once Chotu completes the date planner and sends her wishlist, it will show up here immediately with all her choices.
+                Once Chotu completes her date choices and sends her wishlist, it will show up here immediately with all her choices.
               </p>
             </div>
           ) : (
