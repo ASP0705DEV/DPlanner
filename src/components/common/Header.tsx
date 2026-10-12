@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Sparkles, Sliders, Clock, FileHeart, BookOpen } from 'lucide-react';
+import { Heart, Sparkles, Sliders, Clock, FileHeart, BookOpen, Download } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
 import { ROMANTIC_CONFIG } from '../../config/romanticMessages';
 import { DATE_VIBES } from '../../data/dateVibes';
 import { getVibeDoodleIcon } from './CuteDoodles';
+import { InstallAppModal } from './InstallAppModal';
 
 export const Header: React.FC = () => {
   const location = useLocation();
   const { selectedVibeId } = useDatePlanner();
+  const [showInstallModal, setShowInstallModal] = useState(false);
 
   const chosenVibe = DATE_VIBES.find((v) => v.id === selectedVibeId);
 
@@ -46,8 +48,19 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        {/* Right Side: Magazine Link + Chosen Vibe */}
+        {/* Right Side: Install App + Magazine Link + Chosen Vibe */}
         <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setShowInstallModal(true)}
+            className="text-[11px] font-bold px-2 py-1 rounded-full bg-white text-[#49333A]/80 border border-[#49333A]/15 hover:border-[#FFB7C5] hover:text-[#E94F64] inline-flex items-center gap-1 cursor-pointer transition-all shadow-2xs"
+            title="Download app to desktop or phone"
+          >
+            <Download className="w-3 h-3 text-[#E94F64]" />
+            <span className="hidden sm:inline">Install App</span>
+            <span className="sm:hidden">App 📲</span>
+          </button>
+
           <Link
             to="/memories"
             className={`text-[11px] font-bold px-2.5 py-1 rounded-full border inline-flex items-center gap-1 transition-all ${
@@ -69,6 +82,11 @@ export const Header: React.FC = () => {
           )}
         </div>
       </div>
+
+      <InstallAppModal
+        isOpen={showInstallModal}
+        onClose={() => setShowInstallModal(false)}
+      />
 
       {/* Step Pills on Mobile */}
       {!isHome && !isSecretDashboard && !isMemories && (

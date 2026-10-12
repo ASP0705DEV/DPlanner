@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sparkles, Heart, Image as ImageIcon, BookOpen } from 'lucide-react';
+import { Sparkles, Heart, Image as ImageIcon, BookOpen, Download } from 'lucide-react';
 import { AnimatedEnvelope } from '../components/letter/AnimatedEnvelope';
 import { ROMANTIC_CONFIG } from '../config/romanticMessages';
 import { MobileContainer } from '../components/common/MobileContainer';
 import { WashiTape } from '../components/common/WashiTape';
+import { InstallAppModal } from '../components/common/InstallAppModal';
 
 export const ScreenOneLetter: React.FC = () => {
   const navigate = useNavigate();
   const [showOriginalPhoto, setShowOriginalPhoto] = useState(false);
+  const [showInstallModal, setShowInstallModal] = useState(false);
 
   const handleOpenComplete = () => {
     navigate('/vibe');
@@ -92,25 +94,41 @@ export const ScreenOneLetter: React.FC = () => {
           <AnimatedEnvelope onOpenComplete={handleOpenComplete} />
         </motion.div>
 
-        {/* Memory Magazine Quick Access Card */}
+        {/* Quick Actions: Magazine & Install App */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="mt-6 pt-4 border-t border-dashed border-[#49333A]/15 text-center"
+          className="mt-6 pt-4 border-t border-dashed border-[#49333A]/15 flex flex-col items-center gap-2"
         >
-          <button
-            type="button"
-            onClick={() => navigate('/memories')}
-            className="inline-flex items-center gap-2 py-2 px-4 rounded-2xl bg-white border border-[#49333A]/15 text-xs font-bold text-[#49333A] hover:border-[#FFB7C5] hover:text-[#E94F64] shadow-xs cursor-pointer transition-all hover:scale-102"
-          >
-            <BookOpen className="w-4 h-4 text-[#E94F64]" />
-            <span>Open Our Love Life Magazine 📖</span>
-          </button>
-          <p className="text-[10px] text-[#49333A]/60 mt-1">
-            Flip through our shared memories, photos & stories in Jamshedpur
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <button
+              type="button"
+              onClick={() => navigate('/memories')}
+              className="inline-flex items-center gap-2 py-2 px-3.5 rounded-2xl bg-white border border-[#49333A]/15 text-xs font-bold text-[#49333A] hover:border-[#FFB7C5] hover:text-[#E94F64] shadow-xs cursor-pointer transition-all hover:scale-102"
+            >
+              <BookOpen className="w-4 h-4 text-[#E94F64]" />
+              <span>Our Love Magazine 📖</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowInstallModal(true)}
+              className="inline-flex items-center gap-1.5 py-2 px-3.5 rounded-2xl bg-white border border-[#49333A]/15 text-xs font-bold text-[#49333A] hover:border-[#FFB7C5] hover:text-[#E94F64] shadow-xs cursor-pointer transition-all hover:scale-102"
+            >
+              <Download className="w-3.5 h-3.5 text-[#E94F64]" />
+              <span>Download App 📲</span>
+            </button>
+          </div>
+          <p className="text-[10px] text-[#49333A]/60">
+            Flip through our shared memories or install on your desktop/phone
           </p>
         </motion.div>
+
+        <InstallAppModal
+          isOpen={showInstallModal}
+          onClose={() => setShowInstallModal(false)}
+        />
       </div>
     </MobileContainer>
   );

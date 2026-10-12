@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DatePlannerProvider } from './context/DatePlannerContext';
 import { Header } from './components/common/Header';
 import { ScrollToTop } from './components/common/ScrollToTop';
+import { HeartNudgeButton } from './components/common/HeartNudgeButton';
 import { ScreenOneLetter } from './pages/ScreenOneLetter';
 import { ScreenTwoVibe } from './pages/ScreenTwoVibe';
 import { ScreenThreeCustomize } from './pages/ScreenThreeCustomize';
@@ -30,6 +31,8 @@ export const App: React.FC = () => {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
+          {/* Always Available Interactive Heart Nudge to 7070362117 */}
+          <HeartNudgeButton />
         </div>
       </BrowserRouter>
     </DatePlannerProvider>
