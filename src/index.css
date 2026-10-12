@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FFF8F0;
+  --color-pastel-pink: #FFB7C5;
+  --color-blush: #FFE0E6;
+  --color-cherry: #E94F64;
+  --color-lavender: #E7DFFF;
+  --color-butter: #FFF0B8;
+  --color-mint: #DDF3E4;
+  --color-dark-brown: #49333A;
+
+  --font-caveat: 'Caveat', cursive;
+  --font-nunito: 'Nunito', sans-serif;
+}
+
+/* Custom Scrapbook & Romantic Styling */
+:root {
+  --cream: #FFF8F0;
+  --pastel-pink: #FFB7C5;
+  --blush: #FFE0E6;
+  --cherry: #E94F64;
+  --lavender: #E7DFFF;
+  --butter: #FFF0B8;
+  --mint: #DDF3E4;
+  --dark-brown: #49333A;
+}
+
+body {
+  margin: 0;
+  background-color: var(--cream);
+  color: var(--dark-brown);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(#FFB7C5 0.75px, transparent 0.75px),
+    radial-gradient(#E7DFFF 0.75px, #FFF8F0 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Handwritten Title Utility */
+.font-handwritten {
+  font-family: 'Caveat', cursive;
+}
+
+/* Scrapbook Card with Paper Texture & Soft Shadows */
+.scrapbook-card {
+  background: #ffffff;
+  border: 2px solid rgba(73, 51, 58, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(73, 51, 58, 0.08), 0 2px 6px -1px rgba(73, 51, 58, 0.04);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.scrapbook-card:hover {
+  box-shadow: 0 10px 25px -4px rgba(233, 79, 100, 0.18), 0 4px 10px -2px rgba(73, 51, 58, 0.06);
+}
+
+/* Washi Tape Accent */
+.washi-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 90px;
+  height: 22px;
+  background-color: rgba(255, 183, 197, 0.75);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border-left: 2px dashed rgba(255, 255, 255, 0.6);
+  border-right: 2px dashed rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.washi-tape-mint {
+  background-color: rgba(221, 243, 228, 0.85);
+}
+
+.washi-tape-butter {
+  background-color: rgba(255, 240, 184, 0.85);
+}
+
+.washi-tape-lavender {
+  background-color: rgba(231, 223, 255, 0.85);
+}
+
+/* Romantic Button */
+.btn-pookie {
+  background: linear-gradient(135deg, #FFB7C5 0%, #E94F64 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.75rem 1.75rem;
+  box-shadow: 0 4px 14px rgba(233, 79, 100, 0.35);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 2px solid #ffffff;
+}
+
+.btn-pookie:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(233, 79, 100, 0.45);
+}
+
+.btn-pookie:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-pookie-secondary {
+  background: #ffffff;
+  color: #49333A;
+  border: 2px solid rgba(73, 51, 58, 0.15);
+  border-radius: 9999px;
+  padding: 0.75rem 1.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(73, 51, 58, 0.05);
+  transition: all 0.2s ease;
+}
+
+.btn-pookie-secondary:hover {
+  background: #FFF8F0;
+  border-color: #FFB7C5;
+  transform: translateY(-2px);
+}
+
+/* Stamp border effect */
+.stamp-border {
+  border: 2px dashed rgba(233, 79, 100, 0.3);
+  border-radius: 1rem;
+}
+
+/* Floating animation */
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-gentle-float {
+  animation: gentle-float 4s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.5s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF8F0;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFB7C5;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E94F64;
+}

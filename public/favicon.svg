@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Rounded Pastel Background -->
+  <rect width="64" height="64" rx="16" fill="#FFF8F0"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="#FFB7C5" stroke-width="2"/>
+  
+  <!-- Doodle Heart Vector -->
+  <path d="M32 50C26 44 14 34 14 23.5C14 16.5 19.5 12 25.5 12C29 12 31.2 14 32 15.5C32.8 14 35 12 38.5 12C44.5 12 50 16.5 50 23.5C50 34 38 44 32 50Z" 
+        fill="#FFE0E6" stroke="#E94F64" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        
+  <!-- Doodle Inner Highlight -->
+  <path d="M21 21C21 18 23 16 26 16" stroke="#E94F64" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Doodle Sparkle -->
+  <path d="M48 10L49 14L53 15L49 16L48 20L47 16L43 15L47 14Z" fill="#F59E0B"/>
+  <circle cx="15" cy="46" r="1.5" fill="#E94F64"/>
+</svg>
