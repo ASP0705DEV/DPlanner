@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Sparkles, Sliders, Clock, FileHeart, Camera, Download, Lock, Crown } from 'lucide-react';
+import { Heart, Sparkles, Sliders, Clock, FileHeart, Camera, Lock, Crown } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
 import { useAuth } from '../../context/AuthContext';
-import { ROMANTIC_CONFIG } from '../../config/romanticMessages';
 import { DATE_VIBES } from '../../data/dateVibes';
 import { getVibeDoodleIcon } from './CuteDoodles';
 import { InstallAppModal } from './InstallAppModal';
@@ -46,74 +45,65 @@ export const Header: React.FC = () => {
             <div>
               <div className="flex items-center gap-1.5 min-w-0">
                 <span className="font-display text-sm sm:text-base font-extrabold text-[#3D2730] tracking-tight leading-none">
-                  Sonu & Chotu
+                  For Chotu 💕
                 </span>
                 <span className="hidden sm:inline-flex bg-[#FFE0E6] text-[#E94F64] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-[#FFB7C5]/50 shadow-2xs">
-                  For {ROMANTIC_CONFIG.girlfriendNickname} 💕
+                  By Sonu ✨
                 </span>
               </div>
             </div>
           </Link>
 
-          {/* Right Side Actions: Install App + Favs Handbook + Journal Link + Chosen Vibe + Lock */}
+          {/* Right Side Actions: Icons-Only Alignment (Favs + Journal + Vibe + Lock) */}
           <div className="flex items-center gap-1.5 shrink-0">
             <Link
               to="/favorites"
-              className={`text-[11px] font-bold px-2 sm:px-2.5 py-1.5 rounded-full border inline-flex items-center gap-1 transition-all shadow-2xs hover:scale-102 ${
+              className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all shadow-2xs hover:scale-105 ${
                 isFavorites
                   ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white border-transparent shadow-xs'
                   : 'bg-[#FFF0F5] text-[#E94F64] border-[#FFB7C5]/70 hover:bg-[#FFE0E6]'
               }`}
-              title="Chotu's Favorites Handbook"
+              title="Chotu's Favorites Handbook 👑"
             >
-              <Crown className="w-3.5 h-3.5 text-[#E94F64] fill-current" />
-              <span>Favs 👑</span>
+              <Crown className="w-4 h-4 text-current fill-current/20" />
             </Link>
 
             <Link
               to="/memories"
-              className={`text-[11px] font-bold px-2 sm:px-2.5 py-1.5 rounded-full border inline-flex items-center gap-1 transition-all shadow-2xs hover:scale-102 ${
+              className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all shadow-2xs hover:scale-105 ${
                 isMemories
                   ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white border-transparent shadow-xs'
-                  : 'bg-white text-[#3D2730]/80 border-[#3D2730]/15 hover:text-[#E94F64] hover:border-[#FFB7C5]'
+                  : 'bg-white text-[#3D2730]/75 border-[#3D2730]/15 hover:text-[#E94F64] hover:border-[#FFB7C5]'
               }`}
-              title="View our romantic memory journal"
+              title="Our Love Journal 📖"
             >
-              <Camera className="w-3.5 h-3.5" />
-              <span className="hidden xs:inline">Journal</span>
+              <Camera className="w-4 h-4" />
             </Link>
 
-            <button
-              type="button"
-              onClick={() => setShowInstallModal(true)}
-              className="text-[11px] font-bold p-1.5 sm:px-2 sm:py-1.5 rounded-full bg-[#FFFDF9] text-[#3D2730]/80 border border-[#3D2730]/10 hover:border-[#FFB7C5] hover:text-[#E94F64] hover:bg-white inline-flex items-center gap-1 cursor-pointer transition-all shadow-2xs hover:scale-102"
-              title="Download app to desktop or phone"
-            >
-              <Download className="w-3.5 h-3.5 text-[#E94F64]" />
-              <span className="hidden md:inline text-[10px]">App</span>
-            </button>
+            {chosenVibe && !isHome && !isMemories && !isFavorites && (
+              <Link
+                to="/vibe"
+                className="w-8 h-8 rounded-full bg-[#FFF0B8]/90 border border-[#FDE68A] flex items-center justify-center shadow-2xs hover:scale-105 transition-transform"
+                title={`Vibe: ${chosenVibe.title}`}
+              >
+                {getVibeDoodleIcon(chosenVibe.id, 'w-4 h-4 shrink-0')}
+              </Link>
+            )}
 
             {isUnlocked && (
               <button
                 type="button"
                 onClick={logout}
-                className="p-1.5 rounded-full bg-white text-[#3D2730]/70 border border-[#3D2730]/10 hover:border-[#FCA5A5] hover:text-[#DC2626] hover:bg-[#FEE2E2] cursor-pointer transition-all shadow-2xs hover:scale-105"
+                className="w-8 h-8 rounded-full bg-white text-[#3D2730]/70 border border-[#3D2730]/10 hover:border-[#FCA5A5] hover:text-[#DC2626] hover:bg-[#FEE2E2] flex items-center justify-center cursor-pointer transition-all shadow-2xs hover:scale-105"
                 title="Lock app for Chotu only 🔒"
               >
-                <Lock className="w-3.5 h-3.5" />
+                <Lock className="w-4 h-4" />
               </button>
-            )}
-
-            {chosenVibe && !isHome && !isMemories && !isFavorites && (
-              <span className="text-[11px] font-bold bg-[#FFF0B8]/80 text-[#92400E] px-2.5 py-1 rounded-full border border-[#FDE68A] hidden lg:inline-flex items-center gap-1.5 shadow-2xs">
-                {getVibeDoodleIcon(chosenVibe.id, 'w-3.5 h-3.5 shrink-0')}
-                <span className="leading-none truncate max-w-[90px]">{chosenVibe.title}</span>
-              </span>
             )}
           </div>
         </div>
 
-        {/* Modern Step Indicator Bar */}
+        {/* Modern Step Indicator Bar (Icons-First Alignment) */}
         {!isHome && !isSecretDashboard && !isMemories && !isFavorites && (
           <div className="mt-2 pt-2 border-t border-[#3D2730]/5 grid grid-cols-4 gap-1">
             {steps.map((step) => {
@@ -123,14 +113,15 @@ export const Header: React.FC = () => {
                 <Link
                   key={step.path}
                   to={step.path}
-                  className={`flex items-center justify-center gap-1 py-1 px-1 rounded-full text-[10px] sm:text-[11px] font-bold transition-all text-center ${
+                  title={step.label}
+                  className={`flex items-center justify-center gap-1.5 py-1.5 px-1.5 rounded-full text-[11px] font-bold transition-all text-center ${
                     isActive
                       ? 'bg-gradient-to-r from-[#FF758F] to-[#E94F64] text-white shadow-xs scale-101'
                       : 'text-[#3D2730]/65 hover:bg-[#FFE0E6]/50 hover:text-[#3D2730]'
                   }`}
                 >
-                  <StepIcon className="w-3 h-3 shrink-0 hidden xs:inline" />
-                  <span className="truncate">{step.label}</span>
+                  <StepIcon className="w-3.5 h-3.5 shrink-0" />
+                  <span className="hidden xs:inline truncate">{step.label}</span>
                 </Link>
               );
             })}
