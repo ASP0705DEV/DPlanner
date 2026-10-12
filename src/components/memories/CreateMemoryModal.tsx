@@ -13,6 +13,7 @@ import confetti from 'canvas-confetti';
 import type { LoveMemory, MemoryCategory } from '../../types/memory';
 import { AVAILABLE_STOCK_PHOTOS } from '../../data/memoriesData';
 import { playCelebrationTone } from '../../utils/soundEffects';
+import { uploadMemoryPhoto, insertCloudMemory } from '../../services/supabase';
 
 interface CreateMemoryModalProps {
   isOpen: boolean;
@@ -36,6 +37,7 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
   const [sonuNote, setSonuNote] = useState('');
   const [selectedPhotoUrl, setSelectedPhotoUrl] = useState<string>('/photos/chotu_saree.jpg');
   const [error, setError] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const categoryOptions: { id: MemoryCategory; label: string }[] = [
     { id: 'festive', label: '🪔 Durga Puja Festive' },
@@ -47,7 +49,7 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
     { id: 'special', label: '✨ Love Milestone' },
   ];
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -56,6 +58,7 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
       return;
     }
 
+    // Instant local preview
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === 'string') {
@@ -64,6 +67,14 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
       }
     };
     reader.readAsDataURL(file);
+
+    // Upload to Supabase CDN bucket
+    setIsUploading(true);
+    const { url } = await uploadMemoryPhoto(file);
+    if (url) {
+      setSelectedPhotoUrl(url);
+    }
+    setIsUploading(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -91,6 +102,20 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
     };
 
     onAddMemory(newMemory);
+    insertCloudMemory({
+      id: newMemory.id,
+      title: newMemory.title,
+      date: newMemory.date,
+      location: newMemory.location,
+      category: newMemory.category,
+      category_label: newMemory.categoryLabel,
+      photo_url: newMemory.photoUrl,
+      caption: newMemory.caption,
+      story: newMemory.story,
+      sonu_note: newMemory.sonuNote,
+      is_user_added: true,
+      created_at: newMemory.createdAt,
+    });
     playCelebrationTone();
 
     confetti({
@@ -184,14 +209,26 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
               <div className="flex items-center justify-between gap-2">
                 <button
                   type="button"
+                  disabled={isUploading}
                   onClick={() => fileInputRef.current?.click()}
-                  className="btn-pookie py-2 px-3.5 text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  className="btn-pookie py-2 px-3.5 text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-60"
                 >
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Upload from Device 📁</span>
+                  {isUploading ? (
+                    <>
+                      <Sparkles className="w-3.5 h-3.5 animate-spin" />
+                      <span>Uploading to Cloud...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Upload from Device 📁</span>
+                    </>
+                  )}
                 </button>
 
-                <span className="text-[11px] text-[#3D2730]/60 font-semibold">or choose stock photo below ↓</span>
+                <span className="text-[11px] text-[#3D2730]/60 font-semibold">
+                  {isUploading ? 'Uploading image...' : 'or choose stock photo below ↓'}
+                </span>
               </div>
 
               {/* Stock Photo Chips */}

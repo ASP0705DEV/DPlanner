@@ -195,9 +195,10 @@ export const MemoryJournalCard: React.FC<MemoryJournalCardProps> = ({
 
       {/* 2. FULL UNCROPPED EDITORIAL PHOTO DISPLAY */}
       <div
+        onClick={() => onOpenLightbox && onOpenLightbox(memory)}
         onDoubleClick={handleDoubleTap}
         className="relative bg-neutral-900 overflow-hidden flex items-center justify-center cursor-pointer group min-h-[300px] max-h-[580px]"
-        title="Double-tap for heart chime • Tap zoom for high-res"
+        title="Tap to open full photo • Double-tap for heart chime"
       >
         {/* Soft Ambient Blurred Backdrop */}
         <img

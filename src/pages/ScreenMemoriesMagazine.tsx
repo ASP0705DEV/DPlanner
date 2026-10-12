@@ -20,6 +20,7 @@ import { ImageLightboxModal } from '../components/common/ImageLightboxModal';
 import { MobileContainer } from '../components/common/MobileContainer';
 import { useAuth } from '../context/AuthContext';
 import { playHeartNudgeSound } from '../utils/soundEffects';
+import { fetchCloudMemories } from '../services/supabase';
 
 const FEED_STORAGE_KEY = 'chotu_user_love_journal_v4';
 
@@ -50,6 +51,35 @@ export const ScreenMemoriesMagazine: React.FC = () => {
   // Multi-Photo Selection Mode state
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedMemoryIds, setSelectedMemoryIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchCloudMemories().then((cloudItems) => {
+      if (cloudItems && cloudItems.length > 0) {
+        setPosts((prev) => {
+          const map = new Map<string, LoveMemory>();
+          prev.forEach((p) => map.set(p.id, p));
+          cloudItems.forEach((c: any) => {
+            const mapped: LoveMemory = {
+              id: c.id,
+              title: c.title,
+              date: c.date,
+              location: c.location,
+              category: c.category,
+              categoryLabel: c.category_label,
+              photoUrl: c.photo_url,
+              caption: c.caption,
+              story: c.story,
+              sonuNote: c.sonu_note,
+              isUserAdded: c.is_user_added,
+              createdAt: c.created_at,
+            };
+            map.set(mapped.id, mapped);
+          });
+          return Array.from(map.values());
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     try {

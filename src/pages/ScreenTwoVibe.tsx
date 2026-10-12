@@ -83,8 +83,8 @@ export const ScreenTwoVibe: React.FC = () => {
             <div className="max-w-[430px] mx-auto p-2.5 sm:p-3 pointer-events-auto">
               <div className="bg-white/95 backdrop-blur-2xl rounded-2xl border border-white/95 p-3 shadow-[0_15px_40px_-8px_rgba(233,79,100,0.25)] flex items-center justify-between gap-3 ring-1 ring-[#FFB7C5]/40">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#FFE0E6] to-white border border-[#FFB7C5]/40 flex items-center justify-center shrink-0 shadow-2xs">
-                    {getVibeDoodleIcon(chosenVibe.id, 'w-6 h-6')}
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFE0E6] via-[#FFF0F5] to-white border border-[#FFB7C5]/60 flex items-center justify-center shrink-0 shadow-xs">
+                    {getVibeDoodleIcon(chosenVibe.id, 'w-8 h-8 text-[#E94F64] drop-shadow-xs')}
                   </div>
                   <div className="min-w-0">
                     <span className="text-[10px] font-extrabold text-[#E94F64] uppercase tracking-wider flex items-center gap-1">

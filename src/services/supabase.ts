@@ -173,3 +173,55 @@ export async function updateSubmissionStatus(
     return { success: false, error: err.message };
   }
 }
+
+export async function uploadMemoryPhoto(file: File): Promise<{ url: string | null; error?: string }> {
+  if (!supabase) {
+    return { url: null, error: 'Supabase client not active' };
+  }
+
+  try {
+    const ext = file.name.split('.').pop() || 'jpg';
+    const fileName = `memories/${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${ext}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('memories')
+      .upload(fileName, file, { cacheControl: '3600', upsert: true });
+
+    if (uploadError) {
+      console.warn('Storage upload note:', uploadError);
+      return { url: null, error: uploadError.message };
+    }
+
+    const { data } = supabase.storage.from('memories').getPublicUrl(fileName);
+    return { url: data.publicUrl };
+  } catch (err: any) {
+    return { url: null, error: err.message };
+  }
+}
+
+export async function fetchCloudMemories(): Promise<any[]> {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from('love_memories')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error || !data) return [];
+    return data;
+  } catch {
+    return [];
+  }
+}
+
+export async function insertCloudMemory(memory: any): Promise<boolean> {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('love_memories')
+      .insert([memory]);
+    return !error;
+  } catch {
+    return false;
+  }
+}
