@@ -2,6 +2,7 @@
 // Mobile-first, no budgets, single-select vibe flow with deep customizations
 
 export type DateVibeId =
+  | 'durga-puja'
   | 'road-ride'
   | 'princess-treatment'
   | 'foodie-mode'
@@ -56,6 +57,7 @@ export interface DateVibeOption {
 
 export type VehicleChoice = 'bike' | 'car' | 'scooter';
 export type ChillAudienceChoice = 'just-us' | 'with-siblings';
+export type PujaCompanionChoice = 'just-us' | 'with-siblings' | 'with-family';
 export type PitstopChoice =
   | 'chai-maggi'
   | 'cold-coffee-shakes'
@@ -71,6 +73,7 @@ export interface VibeCustomizationState {
   vehicleChoice?: VehicleChoice;
   selectedRoute?: string;
   chillAudience?: ChillAudienceChoice;
+  pujaCompanion?: PujaCompanionChoice;
   selectedSpotId?: string;
   customSpotName?: string;
   pitstopChoice?: PitstopChoice;

@@ -1,7 +1,116 @@
 import type { DateVibeOption } from '../types';
 
 export const DATE_VIBES: DateVibeOption[] = [
-  // 1. ROAD RIDES & LONG DRIVES
+  // 1. DURGA PUJA PANDAL HOPPING (FESTIVE SPECIAL)
+  {
+    id: 'durga-puja',
+    title: 'Durga Puja Pandal Hopping',
+    hindiTitle: 'Sharodiya Utsav & Pandal Hopping',
+    emoji: '🪔',
+    loveSlogan: '“Dhaak ki beats, haath mein tera haath, aur roshni ke beech hum dono... Durga Puja Mubarak, meri jaan!”',
+    description: 'Dressed up in traditional ethnic wear, smell of dhunuchi & mogra, dazzling lighting gates, and hopping through Jamshedpur’s grandest pandals.',
+    romanticNote: 'I will hold your hand through every festive crowd, get you every mela treat you point at, and admire my Chotu looking gorgeous in her festive look.',
+    categoryLabel: 'Festive Season Special',
+    colorScheme: {
+      bg: '#FFF5F0',
+      border: '#FDBA74',
+      badge: '#EA580C',
+    },
+    subChoiceTitle: 'Puja Cravings & Mela Treats:',
+    subChoiceSubtitle: 'What are we feasting on during our pandal hopping?',
+    allowMultipleSubChoices: true,
+    subChoices: [
+      {
+        id: 'bhog-khichuri',
+        label: 'Maha Bhog & Khichuri Prasad',
+        emoji: '🍲',
+        description: 'Warm khichuri, labra, beguni, tomato chutney, and creamy payesh prasad.',
+        tag: 'Divine Taste',
+      },
+      {
+        id: 'kathi-roll-stall',
+        label: 'Famous Puja Kathi Roll',
+        emoji: '🌯',
+        description: 'Crispy Kolkata-style chicken/paneer roll with onions, green chillies & lemon.',
+        tag: 'Mela Classic',
+      },
+      {
+        id: 'mela-chaat-puchka',
+        label: 'Evening Puchka & Chaat Crawl',
+        emoji: '🥣',
+        description: 'Extra spicy mint puchkas & dahi papdi chaat from the buzzing Sakchi stalls.',
+        tag: 'Teekha & Sweet',
+      },
+      {
+        id: 'biryani-chaap',
+        label: 'Puja Special Biryani & Chaap',
+        emoji: '🍛',
+        description: 'Aromatic long-grain saffron rice, tender meat, Kolkata aloo, and rich gravy.',
+        tag: 'Festive Feast',
+      },
+      {
+        id: 'hot-jalebi-rabdi',
+        label: 'Hot Spiral Jalebi & Rabdi',
+        emoji: '🍯',
+        description: 'Crispy sizzling jalebis dipped in sugar syrup served with thick chilled rabdi.',
+        tag: 'Sweet Craving',
+      },
+      {
+        id: 'mela-chowmein',
+        label: 'Street Style Hakka Chowmein',
+        emoji: '🥢',
+        description: 'Smoky, spicy stir-fried mela chowmein with extra shredded veggies & sauces.',
+        tag: 'Desi Chinese',
+      },
+    ],
+    jamshedpurSpotsTitle: 'Which Famous Jamshedpur Pandals to Visit?',
+    jamshedpurSpots: [
+      {
+        id: 'spot-kasidih',
+        name: 'Kasidih Durga Puja Pandal',
+        locality: 'Kasidih, Sakchi',
+        description: 'One of the grandest thematic pandals in Jamshedpur, famous for majestic temple architecture and dazzling multi-color illumination gates.',
+        mapsQuery: 'Kasidih Durga Puja Pandal Jamshedpur',
+      },
+      {
+        id: 'spot-jairam-adityapur',
+        name: 'Jairam Sporting Club Grand Pandal',
+        locality: 'Adityapur Main Road',
+        description: 'Massive towering replica with grand fairgrounds, carnival rides, enormous crowds, and breathtaking architectural grandeur.',
+        mapsQuery: 'Jairam Youth Sporting Club Adityapur Jamshedpur',
+      },
+      {
+        id: 'spot-bistupur-ram-mandir',
+        name: 'Bistupur Ram Mandir & Northern Town Circuit',
+        locality: 'Bistupur / Northern Town',
+        description: 'Heart of the city with rich heritage traditions, lively food streets, festive melas, and peaceful sanctum darshan.',
+        mapsQuery: 'Ram Mandir Bistupur Jamshedpur',
+      },
+      {
+        id: 'spot-tuiladungri',
+        name: 'Tuiladungri Durga Puja Pandal',
+        locality: 'Golmuri',
+        description: 'Celebrated across Jharkhand for intricate artistic craftsmanship, traditional clay idols, and dazzling light gates.',
+        mapsQuery: 'Tuiladungri Durga Puja Golmuri Jamshedpur',
+      },
+      {
+        id: 'spot-kadma-rankini',
+        name: 'Rankini Mandir & Farm Area Puja',
+        locality: 'Kadma',
+        description: 'Soulful spiritual atmosphere, authentic traditional rituals, peaceful vibes, and community bhog gatherings.',
+        mapsQuery: 'Rankini Mandir Kadma Jamshedpur',
+      },
+      {
+        id: 'spot-telco-sabuj',
+        name: 'Sabuj Kalyan Samiti Durga Puja',
+        locality: 'Telco Colony',
+        description: 'Scenic, lush green campus with traditional Bengali cultural ceremonies, rhythmic dhaak competitions, and serene family environment.',
+        mapsQuery: 'Sabuj Kalyan Samiti Telco Jamshedpur',
+      },
+    ],
+  },
+
+  // 2. ROAD RIDES & LONG DRIVES
   {
     id: 'road-ride',
     title: 'Road Rides & Long Drive',

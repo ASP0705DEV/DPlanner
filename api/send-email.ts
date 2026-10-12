@@ -24,6 +24,7 @@ export default async function handler(req: any, res: any) {
       special_note,
       vehicle_choice,
       chill_audience,
+      puja_companion,
       sub_choices,
       pitstop_treat,
       spot_name,
@@ -63,6 +64,10 @@ export default async function handler(req: any, res: any) {
 
     const audienceHtml = chill_audience
       ? `<p style="margin: 6px 0; font-size: 13px; color: #49333A;"><strong>👥 Circle:</strong> <span style="color: #6D28D9; font-weight: bold;">${chill_audience === 'just-us' ? 'Just Sonu & Chotu' : 'With All the Siblings'}</span></p>`
+      : '';
+
+    const pujaCompanionHtml = puja_companion
+      ? `<p style="margin: 6px 0; font-size: 13px; color: #49333A;"><strong>🪔 Pandal Hopping Gang:</strong> <span style="color: #E94F64; font-weight: bold;">${puja_companion}</span></p>`
       : '';
 
     const pitstopHtml = pitstop_treat
@@ -113,6 +118,7 @@ export default async function handler(req: any, res: any) {
                 <h3 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; color: #E94F64; letter-spacing: 0.5px;">Date Details</h3>
                 ${vehicleHtml}
                 ${audienceHtml}
+                ${pujaCompanionHtml}
                 ${choicesHtml}
                 ${pitstopHtml}
                 ${spotHtml}

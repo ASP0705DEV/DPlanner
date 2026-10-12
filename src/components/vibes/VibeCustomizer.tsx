@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ExternalLink, Heart, Check, Sparkles, Navigation, UtensilsCrossed, Image as ImageIcon } from 'lucide-react';
+import { ExternalLink, Heart, Check, Sparkles, Navigation, UtensilsCrossed, Image as ImageIcon, Users } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
-import type { DateVibeOption, VehicleChoice, ChillAudienceChoice, PitstopChoice } from '../../types';
+import type { DateVibeOption, VehicleChoice, ChillAudienceChoice, PujaCompanionChoice, PitstopChoice } from '../../types';
 import {
   getVibeDoodleIcon,
   getSubChoiceDoodleIcon,
@@ -12,10 +12,16 @@ import {
   DoodleCocktailDrink,
   DoodleStar,
   DoodleMapPin,
+  DoodleDurgaPuja,
 } from '../common/CuteDoodles';
 import { WashiTape } from '../common/WashiTape';
 
 const VIBE_MEMORY_MAP: Record<string, { doodle: string; photo: string; caption: string }> = {
+  'durga-puja': {
+    doodle: '/doodles/doodle_durga_puja_couple.jpg',
+    photo: '/photos/chotu_saree.jpg',
+    caption: 'Dressed up in festive ethnic wear, dhaak beats, and holding hands tightly in the crowd',
+  },
   'road-ride': {
     doodle: '/doodles/sunset_drive_polaroid.jpg',
     photo: '/photos/car_drive_miss_you.jpg',
@@ -88,6 +94,7 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
     toggleSubChoice,
     setVehicleChoice,
     setChillAudience,
+    setPujaCompanion,
     setSelectedSpotId,
     setPitstopChoice,
   } = useDatePlanner();
@@ -271,6 +278,74 @@ export const VibeCustomizer: React.FC<VibeCustomizerProps> = ({ vibe }) => {
                     </span>
                   </div>
                   <p className="text-xs text-[#49333A]/80 leading-snug">{aud.desc}</p>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* SPECIFIC: Durga Puja Companion Choice (Just Us, Siblings, or Family) */}
+      {vibe.id === 'durga-puja' && (
+        <section className="scrapbook-card p-4 sm:p-5 bg-white border-2 border-[#49333A]/10">
+          <div className="flex items-center gap-2 text-[#E94F64] mb-1">
+            <DoodleDurgaPuja className="w-5 h-5" />
+            <h4 className="font-handwritten text-2xl font-bold text-[#49333A]">
+              Who is Pandal Hopping with us?
+            </h4>
+          </div>
+          <p className="text-xs text-[#49333A]/70 mb-3.5">
+            Choose our pandal hopping gang for this festive season:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            {[
+              {
+                id: 'just-us' as PujaCompanionChoice,
+                title: 'Just Sonu & Chotu',
+                tag: 'Romantic Couple',
+                icon: <Heart className="w-5 h-5 text-[#E94F64] fill-[#E94F64]" />,
+                desc: 'Holding hands tightly in the crowd, late-night ride between pandals, sharing mela snacks together.',
+              },
+              {
+                id: 'with-siblings' as PujaCompanionChoice,
+                title: 'With Siblings',
+                tag: 'Masti & Chaos',
+                icon: <Sparkles className="w-5 h-5 text-[#F59E0B]" />,
+                desc: '100 selfies at every lighting gate, crazy sibling banter, puchka challenges, and loud festive fun!',
+              },
+              {
+                id: 'with-family' as PujaCompanionChoice,
+                title: 'With Family',
+                tag: 'Warm Blessings',
+                icon: <Users className="w-5 h-5 text-[#EA580C]" />,
+                desc: 'Pushpanjali together, seeking Maa Durga’s blessings with elders, serene evening pandal walk & dinner.',
+              },
+            ].map((comp) => {
+              const isSelected = (customization.pujaCompanion || 'just-us') === comp.id;
+              return (
+                <button
+                  key={comp.id}
+                  type="button"
+                  onClick={() => setPujaCompanion(comp.id)}
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between ${
+                    isSelected
+                      ? 'bg-[#FFE0E6] border-[#E94F64] shadow-xs'
+                      : 'bg-white border-[#49333A]/15 hover:border-[#FFB7C5]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1 mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] border border-[#49333A]/10 flex items-center justify-center shrink-0">
+                        {comp.icon}
+                      </div>
+                      <span className="font-bold text-xs text-[#49333A]">{comp.title}</span>
+                    </div>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-[#E94F64] border border-[#FFB7C5] shrink-0">
+                      {comp.tag}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#49333A]/80 leading-snug">{comp.desc}</p>
                 </button>
               );
             })}

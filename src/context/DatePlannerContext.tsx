@@ -3,6 +3,7 @@ import type {
   DateVibeId,
   VehicleChoice,
   ChillAudienceChoice,
+  PujaCompanionChoice,
   PitstopChoice,
   VibeCustomizationState,
   DateTiming,
@@ -15,6 +16,7 @@ interface DatePlannerContextValue extends DatePlannerState {
   setVehicleChoice: (vehicle: VehicleChoice) => void;
   setSelectedRoute: (route: string) => void;
   setChillAudience: (audience: ChillAudienceChoice) => void;
+  setPujaCompanion: (companion: PujaCompanionChoice) => void;
   setSelectedSpotId: (spotId: string) => void;
   setCustomSpotName: (name: string) => void;
   setPitstopChoice: (pitstop: PitstopChoice) => void;
@@ -32,6 +34,7 @@ const initialCustomization: VibeCustomizationState = {
   vehicleChoice: 'scooter',
   selectedRoute: 'Marine Drive Jamshedpur',
   chillAudience: 'just-us',
+  pujaCompanion: 'just-us',
   selectedSpotId: '',
   customSpotName: '',
 };
@@ -139,6 +142,16 @@ export const DatePlannerProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }));
   };
 
+  const setPujaCompanion = (companion: PujaCompanionChoice) => {
+    setState((prev) => ({
+      ...prev,
+      customization: {
+        ...prev.customization,
+        pujaCompanion: companion,
+      },
+    }));
+  };
+
   const setSelectedSpotId = (spotId: string) => {
     setState((prev) => ({
       ...prev,
@@ -199,6 +212,7 @@ export const DatePlannerProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setVehicleChoice,
         setSelectedRoute,
         setChillAudience,
+        setPujaCompanion,
         setSelectedSpotId,
         setCustomSpotName,
         setPitstopChoice,

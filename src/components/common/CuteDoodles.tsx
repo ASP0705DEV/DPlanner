@@ -426,10 +426,42 @@ export const DoodleMapPin: React.FC<{ className?: string }> = ({ className = 'w-
   </svg>
 );
 
+// 15. Durga Puja Pandal Hopping (Festive Diya, Flame & Sparkles)
+export const DoodleDurgaPuja: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    {/* Diya Base */}
+    <path
+      d="M5 19C5 24 10 27 16 27C22 27 27 24 27 19H5Z"
+      fill="#F97316"
+      stroke="#49333A"
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+    />
+    {/* Diya Rim */}
+    <ellipse cx="16" cy="19" rx="11" ry="3" fill="#FDBA74" stroke="#49333A" strokeWidth="1.5" />
+    {/* Flame */}
+    <path
+      d="M16 4C14 8 12 11 12 14C12 16.2 13.8 18 16 18C18.2 18 20 16.2 20 14C20 11 18 8 16 4Z"
+      fill="#FBBF24"
+      stroke="#EA580C"
+      strokeWidth="1.6"
+    />
+    <path
+      d="M16 9C15 11 14.5 13 14.5 14.5C14.5 15.3 15.2 16 16 16C16.8 16 17.5 15.3 17.5 14.5C17.5 13 17 11 16 9Z"
+      fill="#EF4444"
+    />
+    {/* Decorative Sparkles */}
+    <path d="M6 10L7 12L9 13L7 14L6 16L5 14L3 13L5 12Z" fill="#F59E0B" />
+    <path d="M26 9L27 11L29 12L27 13L26 15L25 13L23 12L25 11Z" fill="#F59E0B" />
+  </svg>
+);
+
 // --- VIBE DOODLE RESOLVER ---
 
 export const getVibeDoodleIcon = (vibeId: string, className = 'w-7 h-7') => {
   switch (vibeId) {
+    case 'durga-puja':
+      return <DoodleDurgaPuja className={className} />;
     case 'road-ride':
       return <DoodleScooter className={className} />;
     case 'princess-treatment':
@@ -494,12 +526,19 @@ export const getSubChoiceDoodleIcon = (subChoiceId: string, className = 'w-6 h-6
     case 'momos':
     case 'dimsum':
       return <DoodleBakeryPastry className={className} />;
-    case 'chaat-puchka':
+    // Durga Puja Treats
+    case 'bhog-khichuri':
+      return <DoodleDurgaPuja className={className} />;
+    case 'kathi-roll-stall':
+      return <DoodleFoodieWrap className={className} />;
+    case 'mela-chaat-puchka':
       return <DoodlePuchkaPlate className={className} />;
-    case 'pizza-burger':
-      return <DoodleChaiTapri className={className} />;
-    case 'icecream-dessert':
+    case 'biryani-chaap':
+      return <DoodleWineDinner className={className} />;
+    case 'hot-jalebi-rabdi':
       return <DoodleWaffleGelato className={className} />;
+    case 'mela-chowmein':
+      return <DoodleBakeryPastry className={className} />;
 
     // Sports & Games
     case 'bowling':

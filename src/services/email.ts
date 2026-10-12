@@ -7,6 +7,7 @@ export interface DateEmailPayload {
   special_note?: string;
   vehicle_choice?: string;
   chill_audience?: string;
+  puja_companion?: string;
   sub_choices?: string[];
   pitstop_treat?: string;
   spot_name?: string;

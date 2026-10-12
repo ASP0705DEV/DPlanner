@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { DATE_VIBES } from '../data/dateVibes';
 
 describe('Our Little Date Planner - Vibe System', () => {
-  it('contains all 14 curated date vibes', () => {
-    expect(DATE_VIBES.length).toBe(14);
+  it('contains all 15 curated date vibes including Durga Puja', () => {
+    expect(DATE_VIBES.length).toBe(15);
     const vibeIds = DATE_VIBES.map((v) => v.id);
+    expect(vibeIds).toContain('durga-puja');
     expect(vibeIds).toContain('road-ride');
     expect(vibeIds).toContain('princess-treatment');
     expect(vibeIds).toContain('foodie-mode');
@@ -19,6 +20,20 @@ describe('Our Little Date Planner - Vibe System', () => {
     expect(vibeIds).toContain('chill-session');
     expect(vibeIds).toContain('her-time');
     expect(vibeIds).toContain('cuddle-peace');
+  });
+
+  it('includes festive treats and Jamshedpur pandals for Durga Puja', () => {
+    const durgaPuja = DATE_VIBES.find((v) => v.id === 'durga-puja');
+    expect(durgaPuja).toBeDefined();
+    const subIds = durgaPuja?.subChoices?.map((sc) => sc.id);
+    expect(subIds).toContain('bhog-khichuri');
+    expect(subIds).toContain('kathi-roll-stall');
+    expect(subIds).toContain('mela-chaat-puchka');
+
+    const spotIds = durgaPuja?.jamshedpurSpots?.map((s) => s.id);
+    expect(spotIds).toContain('spot-kasidih');
+    expect(spotIds).toContain('spot-jairam-adityapur');
+    expect(spotIds).toContain('spot-bistupur-ram-mandir');
   });
 
   it('includes bike, car, and scooter vehicle choices for Road Rides', () => {

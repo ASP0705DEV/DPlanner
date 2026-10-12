@@ -76,6 +76,19 @@ export const ScreenFiveWishlist: React.FC = () => {
     }
   };
 
+  const getPujaCompanionLabel = (companion?: string) => {
+    switch (companion) {
+      case 'just-us':
+        return 'Just Sonu & Chotu 💕';
+      case 'with-siblings':
+        return 'With Siblings (Masti & Chaos) 🎉';
+      case 'with-family':
+        return 'With Family (Blessings & Love) 🌸';
+      default:
+        return 'Just Sonu & Chotu 💕';
+    }
+  };
+
   const pitstopLabel = getPitstopLabel(customization.pitstopChoice);
 
   const handleSubmit = async () => {
@@ -104,6 +117,7 @@ export const ScreenFiveWishlist: React.FC = () => {
           special_note: specialNote,
           vehicle_choice: customization.vehicleChoice,
           chill_audience: customization.chillAudience,
+          puja_companion: chosenVibe.id === 'durga-puja' ? getPujaCompanionLabel(customization.pujaCompanion) : undefined,
           sub_choices: selectedSubChoiceLabels,
           pitstop_treat: pitstopLabel || undefined,
           spot_name: chosenSpot?.name,
@@ -148,6 +162,9 @@ export const ScreenFiveWishlist: React.FC = () => {
     }
     if (chosenVibe.id === 'chill-session' && customization.chillAudience) {
       subDetails += `\nSession Circle: ${customization.chillAudience === 'just-us' ? 'Just Sonu & Chotu' : 'With All the Siblings'}`;
+    }
+    if (chosenVibe.id === 'durga-puja' && customization.pujaCompanion) {
+      subDetails += `\nPandal Hopping Gang: ${getPujaCompanionLabel(customization.pujaCompanion)}`;
     }
     if (selectedSubChoiceLabels.length > 0) {
       subDetails += `\nSub-choices: ${selectedSubChoiceLabels.join(', ')}`;
@@ -305,7 +322,15 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
         <div className="mb-3.5 p-2 bg-[#FFF8F0] rounded-2xl border border-[#49333A]/10 flex items-center gap-3">
           <div className="w-16 h-16 rounded-xl overflow-hidden border border-[#49333A]/15 shrink-0 bg-white shadow-xs">
             <img
-              src={showRealPhoto ? '/photos/sonu_chotu_sunflower.jpg' : '/doodles/doodle_sunflower_date.jpg'}
+              src={
+                chosenVibe.id === 'durga-puja'
+                  ? showRealPhoto
+                    ? '/photos/chotu_saree.jpg'
+                    : '/doodles/doodle_durga_puja_couple.jpg'
+                  : showRealPhoto
+                  ? '/photos/sonu_chotu_sunflower.jpg'
+                  : '/doodles/doodle_sunflower_date.jpg'
+              }
               alt="Sonu & Chotu"
               className="w-full h-full object-cover"
             />
@@ -313,7 +338,7 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-1 mb-0.5">
               <span className="font-handwritten text-lg font-bold text-[#49333A]">
-                Our Date Keepsake
+                {chosenVibe.id === 'durga-puja' ? 'Puja Keepsake' : 'Our Date Keepsake'}
               </span>
               <button
                 type="button"
@@ -325,7 +350,9 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
               </button>
             </div>
             <p className="text-[10px] text-[#49333A]/70 leading-snug">
-              Every day with you is my favorite memory in Jamshedpur.
+              {chosenVibe.id === 'durga-puja'
+                ? 'Dressed up in festive wear and celebrating Puja together.'
+                : 'Every day with you is my favorite memory in Jamshedpur.'}
             </p>
           </div>
         </div>
@@ -348,6 +375,16 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
               <span className="font-bold text-[#49333A]/70">Session Circle:</span>
               <span className="font-bold text-[#6D28D9]">
                 {customization.chillAudience === 'just-us' ? 'Just Sonu & Chotu' : 'With All the Siblings'}
+              </span>
+            </div>
+          )}
+
+          {/* Puja Companion */}
+          {chosenVibe.id === 'durga-puja' && customization.pujaCompanion && (
+            <div className="p-2.5 bg-[#FFF8F0] rounded-xl border border-[#49333A]/10 flex items-center justify-between">
+              <span className="font-bold text-[#49333A]/70">Pandal Hopping Gang:</span>
+              <span className="font-bold text-[#EA580C]">
+                {getPujaCompanionLabel(customization.pujaCompanion)}
               </span>
             </div>
           )}
