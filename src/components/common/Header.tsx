@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Sparkles, Sliders, Clock, FileHeart } from 'lucide-react';
+import { Heart, Sparkles, Sliders, Clock, FileHeart, BookOpen } from 'lucide-react';
 import { useDatePlanner } from '../../context/DatePlannerContext';
 import { ROMANTIC_CONFIG } from '../../config/romanticMessages';
 import { DATE_VIBES } from '../../data/dateVibes';
@@ -20,6 +20,7 @@ export const Header: React.FC = () => {
   ];
 
   const isHome = location.pathname === '/';
+  const isMemories = location.pathname === '/memories';
   const isSecretDashboard = location.pathname.startsWith('/our-secret-dashboard');
 
   return (
@@ -45,19 +46,32 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        {/* Chosen Vibe Badge (No Command Center lock icon) */}
+        {/* Right Side: Magazine Link + Chosen Vibe */}
         <div className="flex items-center gap-1.5">
-          {chosenVibe && !isHome && (
-            <span className="text-[11px] font-bold bg-[#FFF0B8] text-[#92400E] px-2.5 py-1 rounded-full border border-[#FDE68A] inline-flex items-center gap-1.5 shadow-2xs">
-              {getVibeDoodleIcon(chosenVibe.id, 'w-3.5 h-3.5 shrink-0')}
-              <span className="leading-none">{chosenVibe.title}</span>
+          <Link
+            to="/memories"
+            className={`text-[11px] font-bold px-2.5 py-1 rounded-full border inline-flex items-center gap-1 transition-all ${
+              isMemories
+                ? 'bg-[#E94F64] text-white border-[#E94F64] shadow-xs'
+                : 'bg-white text-[#E94F64] border-[#FFB7C5] hover:bg-[#FFE0E6]'
+            }`}
+            title="Read our Love Life Magazine"
+          >
+            <BookOpen className="w-3 h-3" />
+            <span>Magazine 📖</span>
+          </Link>
+
+          {chosenVibe && !isHome && !isMemories && (
+            <span className="text-[11px] font-bold bg-[#FFF0B8] text-[#92400E] px-2 py-1 rounded-full border border-[#FDE68A] hidden sm:inline-flex items-center gap-1 shadow-2xs">
+              {getVibeDoodleIcon(chosenVibe.id, 'w-3 h-3 shrink-0')}
+              <span className="leading-none truncate max-w-[90px]">{chosenVibe.title}</span>
             </span>
           )}
         </div>
       </div>
 
       {/* Step Pills on Mobile */}
-      {!isHome && !isSecretDashboard && (
+      {!isHome && !isSecretDashboard && !isMemories && (
         <div className="max-w-md mx-auto mt-2 pt-2 border-t border-[#49333A]/10 flex items-center justify-between gap-1">
           {steps.map((step) => {
             const isActive = location.pathname === step.path;

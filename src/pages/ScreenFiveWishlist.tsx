@@ -13,6 +13,7 @@ import {
   Image as ImageIcon,
   Clock,
   Heart,
+  BookOpen,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useDatePlanner } from '../context/DatePlannerContext';
@@ -266,6 +267,14 @@ Now do your Sonu duties properly and let's make this date happen! 💕`;
               {copied ? <Check className="w-3.5 h-3.5 text-[#059669]" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied to Clipboard!' : ROMANTIC_CONFIG.wishlistScreen.copySummaryButton}</span>
             </button>
+
+            <Link
+              to="/memories"
+              className="btn-pookie-secondary flex items-center justify-center gap-2 py-2 text-xs cursor-pointer text-center bg-white"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#E94F64]" />
+              <span>Read Our Love Life Magazine 📖</span>
+            </Link>
           </div>
         </motion.div>
       )}
